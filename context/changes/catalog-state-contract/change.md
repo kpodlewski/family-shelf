@@ -1,7 +1,7 @@
 ---
 change_id: catalog-state-contract
 title: Catalog state contract
-status: new
+status: implemented
 created: 2026-07-24
 updated: 2026-07-24
 archived_at: null

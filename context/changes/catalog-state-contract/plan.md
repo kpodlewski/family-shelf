@@ -233,12 +233,12 @@ There is no data migration. This change only replaces duplicated local mock arra
 
 #### Automated
 
-- [x] 3.1 `npm.cmd run check:catalog` passes.
-- [x] 3.2 `npm.cmd run build` passes.
-- [x] 3.3 `npm.cmd run lint` passes.
+- [x] 3.1 `npm.cmd run check:catalog` passes. - 80f098a
+- [x] 3.2 `npm.cmd run build` passes. - 80f098a
+- [x] 3.3 `npm.cmd run lint` passes. - 80f098a
 
 #### Manual
 
-- [x] 3.4 The check fails if duplicate ids are introduced.
-- [x] 3.5 The check fails if unsupported statuses or kinds enter seed data.
-- [x] 3.6 The check demonstrates search can find at least title and note/borrower matches.
+- [x] 3.4 The check fails if duplicate ids are introduced. - 80f098a
+- [x] 3.5 The check fails if unsupported statuses or kinds enter seed data. - 80f098a
+- [x] 3.6 The check demonstrates search can find at least title and note/borrower matches. - 80f098a
