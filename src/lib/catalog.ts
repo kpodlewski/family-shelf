@@ -22,6 +22,7 @@ const catalogItemKindSearchLabels: Record<CatalogItemKind, string> = {
   "video-game": "video game gra komputerowa gra pc",
 };
 
+// MVP seed data only. Future write flows must introduce durable persistence.
 const catalogItems: readonly CatalogItem[] = [
   {
     id: "dune-book",

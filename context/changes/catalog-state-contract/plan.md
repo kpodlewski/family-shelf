@@ -218,27 +218,27 @@ There is no data migration. This change only replaces duplicated local mock arra
 
 #### Automated
 
-- [x] 2.1 `npm.cmd run build` passes after the page refactor.
-- [x] 2.2 `npm.cmd run lint` passes after the page refactor.
-- [x] 2.3 No local `const items = [...]` mock arrays remain in app pages.
+- [x] 2.1 `npm.cmd run build` passes after the page refactor. - 0b5f98a
+- [x] 2.2 `npm.cmd run lint` passes after the page refactor. - 0b5f98a
+- [x] 2.3 No local `const items = [...]` mock arrays remain in app pages. - 0b5f98a
 
 #### Manual
 
-- [x] 2.4 Home page still renders the recent/visible items list.
-- [x] 2.5 Catalog page still renders the item list.
-- [x] 2.6 Status labels show only `Available` or `Borrowed`.
-- [x] 2.7 Item kind is visible or otherwise clearly available to the UI contract.
+- [x] 2.4 Home page still renders the recent/visible items list. - 0b5f98a
+- [x] 2.5 Catalog page still renders the item list. - 0b5f98a
+- [x] 2.6 Status labels show only `Available` or `Borrowed`. - 0b5f98a
+- [x] 2.7 Item kind is visible or otherwise clearly available to the UI contract. - 0b5f98a
 
 ### Phase 3: Lightweight Contract Verification
 
 #### Automated
 
-- [ ] 3.1 `npm.cmd run check:catalog` passes.
-- [ ] 3.2 `npm.cmd run build` passes.
-- [ ] 3.3 `npm.cmd run lint` passes.
+- [x] 3.1 `npm.cmd run check:catalog` passes.
+- [x] 3.2 `npm.cmd run build` passes.
+- [x] 3.3 `npm.cmd run lint` passes.
 
 #### Manual
 
-- [ ] 3.4 The check fails if duplicate ids are introduced.
-- [ ] 3.5 The check fails if unsupported statuses or kinds enter seed data.
-- [ ] 3.6 The check demonstrates search can find at least title and note/borrower matches.
+- [x] 3.4 The check fails if duplicate ids are introduced.
+- [x] 3.5 The check fails if unsupported statuses or kinds enter seed data.
+- [x] 3.6 The check demonstrates search can find at least title and note/borrower matches.
