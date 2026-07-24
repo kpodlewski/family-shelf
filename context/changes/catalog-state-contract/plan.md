@@ -204,30 +204,30 @@ There is no data migration. This change only replaces duplicated local mock arra
 
 #### Automated
 
-- [x] 1.1 `npm.cmd run build` passes.
-- [x] 1.2 `npm.cmd run lint` passes.
-- [x] 1.3 Catalog contract check passes through the new package script.
+- [x] 1.1 `npm.cmd run build` passes. - d8eb208
+- [x] 1.2 `npm.cmd run lint` passes. - d8eb208
+- [x] 1.3 Catalog contract check passes through the new package script. - d8eb208
 
 #### Manual
 
-- [x] 1.4 The catalog module exposes only read/query operations for F-01.
-- [x] 1.5 Seed items cover all three item kinds.
-- [x] 1.6 No code path depends on item title as identity.
+- [x] 1.4 The catalog module exposes only read/query operations for F-01. - d8eb208
+- [x] 1.5 Seed items cover all three item kinds. - d8eb208
+- [x] 1.6 No code path depends on item title as identity. - d8eb208
 
 ### Phase 2: UI Adoption And Formatting
 
 #### Automated
 
-- [ ] 2.1 `npm.cmd run build` passes after the page refactor.
-- [ ] 2.2 `npm.cmd run lint` passes after the page refactor.
-- [ ] 2.3 No local `const items = [...]` mock arrays remain in app pages.
+- [x] 2.1 `npm.cmd run build` passes after the page refactor.
+- [x] 2.2 `npm.cmd run lint` passes after the page refactor.
+- [x] 2.3 No local `const items = [...]` mock arrays remain in app pages.
 
 #### Manual
 
-- [ ] 2.4 Home page still renders the recent/visible items list.
-- [ ] 2.5 Catalog page still renders the item list.
-- [ ] 2.6 Status labels show only `Available` or `Borrowed`.
-- [ ] 2.7 Item kind is visible or otherwise clearly available to the UI contract.
+- [x] 2.4 Home page still renders the recent/visible items list.
+- [x] 2.5 Catalog page still renders the item list.
+- [x] 2.6 Status labels show only `Available` or `Borrowed`.
+- [x] 2.7 Item kind is visible or otherwise clearly available to the UI contract.
 
 ### Phase 3: Lightweight Contract Verification
 

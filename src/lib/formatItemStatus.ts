@@ -1,14 +1,21 @@
-export function formatItemStatus(status: string): string {
-  const normalizedStatus = status.trim().toLowerCase()
+import type { CatalogItemKind, CatalogItemStatus } from "@/lib/catalog";
 
-  switch (normalizedStatus) {
-    case 'available':
-      return 'Available'
-    case 'borrowed':
-      return 'Borrowed'
-    case 'maintenance':
-      return 'Maintenance'
-    default:
-      return status || 'Unknown'
+export function formatItemStatus(status: CatalogItemStatus): string {
+  switch (status) {
+    case "available":
+      return "Available";
+    case "borrowed":
+      return "Borrowed";
+  }
+}
+
+export function formatItemKind(kind: CatalogItemKind): string {
+  switch (kind) {
+    case "book":
+      return "Book";
+    case "board-game":
+      return "Board game";
+    case "video-game":
+      return "Video game";
   }
 }
