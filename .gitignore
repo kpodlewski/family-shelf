@@ -4,3 +4,5 @@ out
 npm-debug.log*
 context
 AGENTS.md
+.vercel
+.env*
