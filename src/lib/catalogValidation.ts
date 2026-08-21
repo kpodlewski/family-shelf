@@ -4,12 +4,14 @@ import {
   CatalogItemKind,
   CatalogItemStatus,
   CreateCatalogItemInput,
+  UpdateCatalogItemInput,
 } from "@/lib/catalog";
 
 export const CATALOG_NOTE_MAX_LENGTH = 500;
+export const CATALOG_BORROWER_NAME_MAX_LENGTH = 120;
 
 export type CatalogItemValidationError = {
-  field: "title" | "kind" | "status" | "note";
+  field: "id" | "title" | "kind" | "status" | "note" | "borrowerName";
   message: string;
 };
 
@@ -17,6 +19,16 @@ export type CatalogItemValidationResult =
   | {
       ok: true;
       value: CreateCatalogItemInput;
+    }
+  | {
+      ok: false;
+      errors: CatalogItemValidationError[];
+    };
+
+export type UpdateCatalogItemValidationResult =
+  | {
+      ok: true;
+      value: UpdateCatalogItemInput;
     }
   | {
       ok: false;
@@ -77,6 +89,52 @@ export function validateCreateCatalogItemInput(
       kind: validatedKind,
       status: validatedStatus,
       note: note || null,
+    },
+  };
+}
+
+export function validateUpdateCatalogItemInput(
+  input: Record<string, unknown>,
+): UpdateCatalogItemValidationResult {
+  const id = normalizeStringValue(input.id);
+  const status = normalizeStringValue(input.status);
+  const note = normalizeStringValue(input.note);
+  const borrowerName = normalizeStringValue(input.borrowerName);
+  const errors: CatalogItemValidationError[] = [];
+
+  if (!id) {
+    errors.push({ field: "id", message: "Item id is required." });
+  }
+
+  if (!isCatalogItemStatus(status)) {
+    errors.push({ field: "status", message: "Choose a supported status." });
+  }
+
+  if (note.length > CATALOG_NOTE_MAX_LENGTH) {
+    errors.push({
+      field: "note",
+      message: `Note must be ${CATALOG_NOTE_MAX_LENGTH} characters or fewer.`,
+    });
+  }
+
+  if (borrowerName.length > CATALOG_BORROWER_NAME_MAX_LENGTH) {
+    errors.push({
+      field: "borrowerName",
+      message: `Borrower name must be ${CATALOG_BORROWER_NAME_MAX_LENGTH} characters or fewer.`,
+    });
+  }
+
+  if (errors.length > 0) {
+    return { ok: false, errors };
+  }
+
+  return {
+    ok: true,
+    value: {
+      id,
+      status: status as CatalogItemStatus,
+      note: note || null,
+      borrowerName: borrowerName || null,
     },
   };
 }

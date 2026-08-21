@@ -227,4 +227,65 @@ try {
   `;
 }
 
+const updateItemId = `${contractRunId}-update`;
+const updateItemTitle = `Update Contract ${contractRunId}`;
+
+try {
+  await sql`
+    INSERT INTO catalog_items (id, title, kind, status, note)
+    VALUES (${updateItemId}, ${updateItemTitle}, ${"book"}, ${"available"}, ${"before update"})
+  `;
+
+  const updatedRows = await sql`
+    UPDATE catalog_items
+    SET
+      status = ${"borrowed"},
+      borrower_name = ${"Contract Borrower"},
+      note = ${"Updated contract note"},
+      updated_at = now()
+    WHERE id = ${updateItemId}
+    RETURNING id, title, kind, status, borrower_name, borrowed_date, note
+  `;
+  const updatedItem = rowToItem(updatedRows[0]);
+
+  assert.equal(updatedItem.id, updateItemId, "update should keep the same id");
+  assert.equal(updatedItem.title, updateItemTitle, "update should keep the same title");
+  assert.equal(updatedItem.kind, "book", "update should keep the same kind");
+  assert.equal(updatedItem.status, "borrowed", "update should persist status");
+  assert.equal(updatedItem.borrowerName, "Contract Borrower", "update should persist borrower name");
+  assert.equal(updatedItem.note, "Updated contract note", "update should persist note");
+
+  const rowsAfterUpdate = await sql`
+    SELECT id, title, kind, status, borrower_name, borrowed_date, note
+    FROM catalog_items
+    WHERE id = ${updateItemId}
+  `;
+  const searchableItems = rowsAfterUpdate.map(rowToItem);
+
+  assert.equal(searchItems(searchableItems, "Contract Borrower").length, 1, "updated borrower should be searchable");
+  assert.equal(searchItems(searchableItems, "Updated contract note").length, 1, "updated note should be searchable");
+
+  const clearedRows = await sql`
+    UPDATE catalog_items
+    SET
+      status = ${"available"},
+      borrower_name = ${null},
+      note = ${null},
+      updated_at = now()
+    WHERE id = ${updateItemId}
+    RETURNING id, title, kind, status, borrower_name, borrowed_date, note
+  `;
+  const clearedItem = rowToItem(clearedRows[0]);
+
+  assert.equal(clearedItem.status, "available", "update should persist available status");
+  assert.equal(clearedItem.borrowerName, null, "update should allow clearing borrower name");
+  assert.equal(clearedItem.note, null, "update should allow clearing note");
+} finally {
+  await sql`
+    DELETE FROM catalog_items
+    WHERE id = ${updateItemId}
+      OR title = ${updateItemTitle}
+  `;
+}
+
 console.log("Catalog contract check passed.");

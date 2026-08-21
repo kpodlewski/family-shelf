@@ -76,6 +76,13 @@ export type CreateCatalogItemInput = {
   borrowedDate?: string | null;
 };
 
+export type UpdateCatalogItemInput = {
+  id: string;
+  status: CatalogItemStatus;
+  note?: string | null;
+  borrowerName?: string | null;
+};
+
 function normalizeSearchTerm(value: string): string {
   return value.trim().toLowerCase();
 }
@@ -185,4 +192,29 @@ export async function createCatalogItem(
   `) as CatalogItemRow[];
 
   return rowToCatalogItem(rows[0]);
+}
+
+export async function updateCatalogItem(
+  input: UpdateCatalogItemInput,
+  actorProfile: AppProfile,
+): Promise<CatalogItem | null> {
+  if (!profileCan(actorProfile, "catalog:write")) {
+    throw new Error("Profile cannot update catalog items.");
+  }
+
+  const sql = getSqlClient();
+  const note = input.note?.trim() || null;
+  const borrowerName = input.borrowerName?.trim() || null;
+  const rows = (await sql`
+    UPDATE catalog_items
+    SET
+      status = ${input.status},
+      borrower_name = ${borrowerName},
+      note = ${note},
+      updated_at = now()
+    WHERE id = ${input.id}
+    RETURNING id, title, kind, status, borrower_name, borrowed_date, note
+  `) as CatalogItemRow[];
+
+  return rows[0] ? rowToCatalogItem(rows[0]) : null;
 }
