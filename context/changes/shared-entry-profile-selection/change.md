@@ -1,7 +1,7 @@
 ---
 change_id: shared-entry-profile-selection
 title: Shared entry profile selection
-status: implementing
+status: implemented
 created: 2026-08-21
 updated: 2026-08-21
 archived_at: null

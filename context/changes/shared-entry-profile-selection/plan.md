@@ -313,16 +313,16 @@ There is no data migration. The only required environment setup is the shared fa
 
 #### Automated
 
-- [x] 3.1 `npm.cmd run check:profiles` passes.
-- [x] 3.2 `npm.cmd run check:catalog` passes.
-- [x] 3.3 `npm.cmd run build` passes.
-- [x] 3.4 `npm.cmd run lint` passes.
+- [x] 3.1 `npm.cmd run check:profiles` passes. — 936e52c
+- [x] 3.2 `npm.cmd run check:catalog` passes. — 936e52c
+- [x] 3.3 `npm.cmd run build` passes. — 936e52c
+- [x] 3.4 `npm.cmd run lint` passes. — 936e52c
 
 #### Manual
 
-- [x] 3.5 Active profile is visible after entering the app.
-- [x] 3.6 Guest profile is visibly read-only.
-- [x] 3.7 Family profiles are visibly allowed to continue with everyday catalog work.
-- [x] 3.8 Home page and `/items` still render the shared catalog items after profile selection.
-- [x] 3.9 `/admin` does not expose delete or password-unlock behavior in this slice.
-- [x] 3.10 Mobile-width layout keeps profile controls and page content readable without overlap.
+- [x] 3.5 Active profile is visible after entering the app. — 936e52c
+- [x] 3.6 Guest profile is visibly read-only. — 936e52c
+- [x] 3.7 Family profiles are visibly allowed to continue with everyday catalog work. — 936e52c
+- [x] 3.8 Home page and `/items` still render the shared catalog items after profile selection. — 936e52c
+- [x] 3.9 `/admin` does not expose delete or password-unlock behavior in this slice. — 936e52c
+- [x] 3.10 Mobile-width layout keeps profile controls and page content readable without overlap. — 936e52c
