@@ -1,8 +1,16 @@
 "use client";
 
-import { FormEvent, ReactNode, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  FormEvent,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-import { AppProfile, listAppProfiles } from "@/lib/profiles";
+import { AppProfile, ProfileCapability, listAppProfiles } from "@/lib/profiles";
 
 type StoredProfile = Pick<AppProfile, "id" | "label" | "role" | "capabilities">;
 
@@ -12,6 +20,19 @@ type ProfileSessionResponse = {
 };
 
 const storageKey = "family-shelf:selected-profile";
+
+const ProfileSessionContext = createContext<StoredProfile | null>(null);
+
+export function useActiveProfile() {
+  return useContext(ProfileSessionContext);
+}
+
+function storedProfileCan(
+  profile: StoredProfile,
+  capability: ProfileCapability,
+): boolean {
+  return profile.capabilities.includes(capability);
+}
 
 export function ProfileGate({ children }: { children: ReactNode }) {
   const profiles = useMemo(() => listAppProfiles(), []);
@@ -94,24 +115,34 @@ export function ProfileGate({ children }: { children: ReactNode }) {
   }
 
   if (selectedProfile) {
+    const canWriteCatalog = storedProfileCan(selectedProfile, "catalog:write");
+
     return (
-      <>
+      <ProfileSessionContext.Provider value={selectedProfile}>
         <div className="border-b border-slate-200 bg-white px-6 py-3">
-          <div className="mx-auto flex max-w-5xl items-center justify-between gap-3">
-            <p className="text-sm text-slate-600">
-              Using <span className="font-medium text-slate-900">{selectedProfile.label}</span>
-            </p>
+          <div className="mx-auto flex max-w-5xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap items-center gap-2 text-sm">
+              <span className="text-slate-600">
+                Using <span className="font-medium text-slate-900">{selectedProfile.label}</span>
+              </span>
+              <span className="rounded-full bg-slate-100 px-2.5 py-1 font-medium text-slate-700">
+                {selectedProfile.role === "guest" ? "Guest" : "Family"}
+              </span>
+              <span className="rounded-full bg-slate-100 px-2.5 py-1 font-medium text-slate-700">
+                {canWriteCatalog ? "Catalog updates allowed" : "Read-only"}
+              </span>
+            </div>
             <button
               type="button"
               onClick={switchProfile}
-              className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700"
+              className="w-fit rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700"
             >
               Change profile
             </button>
           </div>
         </div>
         {children}
-      </>
+      </ProfileSessionContext.Provider>
     );
   }
 

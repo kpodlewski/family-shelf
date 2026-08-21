@@ -296,33 +296,33 @@ There is no data migration. The only required environment setup is the shared fa
 
 #### Automated
 
-- [x] 2.1 `npm.cmd run check:profiles` passes.
-- [x] 2.2 `npm.cmd run build` passes with the new client/server boundary.
-- [x] 2.3 `npm.cmd run lint` passes.
+- [x] 2.1 `npm.cmd run check:profiles` passes. — 3429a44
+- [x] 2.2 `npm.cmd run build` passes with the new client/server boundary. — 3429a44
+- [x] 2.3 `npm.cmd run lint` passes. — 3429a44
 
 #### Manual
 
-- [x] 2.4 First visit without a stored profile shows profile selection before catalog content.
-- [x] 2.5 Choosing guest enters the app without password.
-- [x] 2.6 Choosing a family profile requires the shared family password.
-- [x] 2.7 An incorrect family password shows an understandable error and does not enter the app.
-- [x] 2.8 A successful profile selection survives browser refresh.
-- [x] 2.9 Switching profile clears the current selection and returns to profile choice.
+- [x] 2.4 First visit without a stored profile shows profile selection before catalog content. — 3429a44
+- [x] 2.5 Choosing guest enters the app without password. — 3429a44
+- [x] 2.6 Choosing a family profile requires the shared family password. — 3429a44
+- [x] 2.7 An incorrect family password shows an understandable error and does not enter the app. — 3429a44
+- [x] 2.8 A successful profile selection survives browser refresh. — 3429a44
+- [x] 2.9 Switching profile clears the current selection and returns to profile choice. — 3429a44
 
 ### Phase 3: UI Adoption And Read-Only Signals
 
 #### Automated
 
-- [ ] 3.1 `npm.cmd run check:profiles` passes.
-- [ ] 3.2 `npm.cmd run check:catalog` passes.
-- [ ] 3.3 `npm.cmd run build` passes.
-- [ ] 3.4 `npm.cmd run lint` passes.
+- [x] 3.1 `npm.cmd run check:profiles` passes.
+- [x] 3.2 `npm.cmd run check:catalog` passes.
+- [x] 3.3 `npm.cmd run build` passes.
+- [x] 3.4 `npm.cmd run lint` passes.
 
 #### Manual
 
-- [ ] 3.5 Active profile is visible after entering the app.
-- [ ] 3.6 Guest profile is visibly read-only.
-- [ ] 3.7 Family profiles are visibly allowed to continue with everyday catalog work.
-- [ ] 3.8 Home page and `/items` still render the shared catalog items after profile selection.
-- [ ] 3.9 `/admin` does not expose delete or password-unlock behavior in this slice.
-- [ ] 3.10 Mobile-width layout keeps profile controls and page content readable without overlap.
+- [x] 3.5 Active profile is visible after entering the app.
+- [x] 3.6 Guest profile is visibly read-only.
+- [x] 3.7 Family profiles are visibly allowed to continue with everyday catalog work.
+- [x] 3.8 Home page and `/items` still render the shared catalog items after profile selection.
+- [x] 3.9 `/admin` does not expose delete or password-unlock behavior in this slice.
+- [x] 3.10 Mobile-width layout keeps profile controls and page content readable without overlap.

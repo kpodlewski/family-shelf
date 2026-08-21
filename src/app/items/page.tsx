@@ -1,5 +1,6 @@
 import { listCatalogItems } from '@/lib/catalog'
 import { formatItemKind, formatItemStatus } from '@/lib/formatItemStatus'
+import { ProfileAccessNotice } from '@/components/ProfileAccessNotice'
 
 export default function ItemsPage() {
   const items = listCatalogItems()
@@ -8,6 +9,7 @@ export default function ItemsPage() {
     <main className="mx-auto flex min-h-screen max-w-4xl flex-col gap-6 p-6">
       <h1 className="text-3xl font-semibold">Item catalog</h1>
       <p className="text-slate-600">Search, add, and update items for the family inventory.</p>
+      <ProfileAccessNotice />
 
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
