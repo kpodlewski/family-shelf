@@ -1,5 +1,7 @@
+import Link from 'next/link'
 import { listCatalogItems, searchCatalogItems } from '@/lib/catalog'
 import { formatItemKind, formatItemStatus } from '@/lib/formatItemStatus'
+import { CatalogSearchForm } from '@/components/CatalogSearchForm'
 import { ProfileAccessNotice } from '@/components/ProfileAccessNotice'
 
 type ItemsPageProps = {
@@ -15,38 +17,59 @@ function getQueryValue(query: string | string[] | undefined): string {
 export default async function ItemsPage({ searchParams }: ItemsPageProps) {
   const params = await searchParams
   const query = getQueryValue(params?.q)
-  const items = query.trim() ? searchCatalogItems(query) : listCatalogItems()
+  const normalizedQuery = query.trim()
+  const items = normalizedQuery ? searchCatalogItems(normalizedQuery) : listCatalogItems()
 
   return (
     <main className="mx-auto flex min-h-screen max-w-4xl flex-col gap-6 p-6">
       <h1 className="text-3xl font-semibold">Item catalog</h1>
       <p className="text-slate-600">Search, add, and update items for the family inventory.</p>
       <ProfileAccessNotice />
+      <CatalogSearchForm query={query} />
 
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-xl font-semibold">Items</h2>
-          <span className="text-sm text-slate-500">{items.length} visible</span>
+          <span className="text-sm text-slate-500">
+            {items.length} {normalizedQuery ? 'matching' : 'visible'}
+          </span>
         </div>
 
-        <div className="grid gap-3">
-          {items.map((item) => (
-            <div key={item.id} className="flex items-center justify-between rounded-xl border border-slate-200 p-4">
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <p className="font-medium">{item.title}</p>
-                  <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">
-                    {formatItemKind(item.kind)}
-                  </span>
+        {items.length > 0 ? (
+          <div className="grid gap-3">
+            {items.map((item) => (
+              <div key={item.id} className="flex flex-col gap-3 rounded-xl border border-slate-200 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="grid gap-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="font-medium">{item.title}</p>
+                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">
+                      {formatItemKind(item.kind)}
+                    </span>
+                  </div>
+                  {item.note ? <p className="text-sm text-slate-500">{item.note}</p> : null}
+                  {item.borrowerName || item.borrowedDate ? (
+                    <p className="text-sm text-slate-500">
+                      {[item.borrowerName ? `Borrower: ${item.borrowerName}` : null, item.borrowedDate ? `Date: ${item.borrowedDate}` : null]
+                        .filter(Boolean)
+                        .join(' | ')}
+                    </p>
+                  ) : null}
                 </div>
-                {item.note ? <p className="text-sm text-slate-500">{item.note}</p> : null}
+                <span className="w-fit rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
+                  {formatItemStatus(item.status)}
+                </span>
               </div>
-              <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
-                {formatItemStatus(item.status)}
-              </span>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-xl border border-dashed border-slate-300 p-6 text-sm text-slate-600">
+            <p className="font-medium text-slate-900">No items match your search.</p>
+            <p className="mt-1">Clear the search to return to the full catalog.</p>
+            <Link href="/items" className="mt-4 inline-flex rounded-lg border border-slate-300 px-4 py-2 font-medium text-slate-700">
+              Clear search
+            </Link>
+          </div>
+        )}
       </section>
     </main>
   )
