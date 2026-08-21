@@ -4,6 +4,7 @@ import { formatItemKind, formatItemStatus } from '@/lib/formatItemStatus'
 import { CatalogSearchForm } from '@/components/CatalogSearchForm'
 import { ProfileAccessNotice } from '@/components/ProfileAccessNotice'
 import { AddCatalogItemForm } from '@/components/AddCatalogItemForm'
+import { UpdateCatalogItemForm } from '@/components/UpdateCatalogItemForm'
 
 type ItemsPageProps = {
   searchParams?: Promise<{
@@ -42,26 +43,29 @@ export default async function ItemsPage({ searchParams }: ItemsPageProps) {
         {items.length > 0 ? (
           <div className="grid gap-3">
             {items.map((item) => (
-              <div key={item.id} className="flex flex-col gap-3 rounded-xl border border-slate-200 p-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="grid gap-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <p className="font-medium">{item.title}</p>
-                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">
-                      {formatItemKind(item.kind)}
-                    </span>
+              <div key={item.id} className="rounded-xl border border-slate-200 p-4">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="grid gap-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="font-medium">{item.title}</p>
+                      <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">
+                        {formatItemKind(item.kind)}
+                      </span>
+                    </div>
+                    {item.note ? <p className="text-sm text-slate-500">{item.note}</p> : null}
+                    {item.borrowerName || item.borrowedDate ? (
+                      <p className="text-sm text-slate-500">
+                        {[item.borrowerName ? `Borrower: ${item.borrowerName}` : null, item.borrowedDate ? `Date: ${item.borrowedDate}` : null]
+                          .filter(Boolean)
+                          .join(' | ')}
+                      </p>
+                    ) : null}
                   </div>
-                  {item.note ? <p className="text-sm text-slate-500">{item.note}</p> : null}
-                  {item.borrowerName || item.borrowedDate ? (
-                    <p className="text-sm text-slate-500">
-                      {[item.borrowerName ? `Borrower: ${item.borrowerName}` : null, item.borrowedDate ? `Date: ${item.borrowedDate}` : null]
-                        .filter(Boolean)
-                        .join(' | ')}
-                    </p>
-                  ) : null}
+                  <span className="w-fit rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
+                    {formatItemStatus(item.status)}
+                  </span>
                 </div>
-                <span className="w-fit rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
-                  {formatItemStatus(item.status)}
-                </span>
+                <UpdateCatalogItemForm item={item} />
               </div>
             ))}
           </div>
