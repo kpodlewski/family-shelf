@@ -16,7 +16,13 @@ type StoredProfile = Pick<AppProfile, "id" | "label" | "role" | "capabilities">;
 
 type ProfileSessionResponse = {
   profile?: StoredProfile;
+  sessionToken?: string | null;
   error?: string;
+};
+
+type StoredProfileSession = {
+  profile: StoredProfile;
+  sessionToken?: string | null;
 };
 
 const storageKey = "family-shelf:selected-profile";
@@ -46,16 +52,38 @@ export function ProfileGate({ children }: { children: ReactNode }) {
   const candidateProfile = profiles.find((profile) => profile.id === candidateProfileId) ?? null;
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
+    const timer = window.setTimeout(async () => {
       const storedValue = window.localStorage.getItem(storageKey);
 
       if (storedValue) {
         try {
-          const parsed = JSON.parse(storedValue) as StoredProfile;
-          const stillValid = profiles.some((profile) => profile.id === parsed.id);
+          const parsed = JSON.parse(storedValue) as Partial<StoredProfileSession>;
+          const storedProfile = parsed.profile;
+          const stillValid = profiles.some((profile) => profile.id === storedProfile?.id);
 
-          if (stillValid) {
-            setSelectedProfile(parsed);
+          if (storedProfile && stillValid) {
+            if (storedProfile.role === "family") {
+              const response = await fetch("/api/profile-session", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  profileId: storedProfile.id,
+                  sessionToken: parsed.sessionToken,
+                }),
+              });
+              const payload = (await response.json()) as ProfileSessionResponse;
+
+              if (response.ok && payload.profile) {
+                setSelectedProfile(payload.profile);
+                window.localStorage.setItem(storageKey, JSON.stringify(payload));
+              } else {
+                window.localStorage.removeItem(storageKey);
+              }
+            } else {
+              setSelectedProfile(storedProfile);
+            }
           } else {
             window.localStorage.removeItem(storageKey);
           }
@@ -95,7 +123,7 @@ export function ProfileGate({ children }: { children: ReactNode }) {
 
       setSelectedProfile(payload.profile);
       setPassword("");
-      window.localStorage.setItem(storageKey, JSON.stringify(payload.profile));
+      window.localStorage.setItem(storageKey, JSON.stringify(payload));
     } catch {
       setError("Could not reach the profile check. Try again.");
     } finally {

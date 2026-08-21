@@ -2,10 +2,15 @@ import { NextResponse } from "next/server";
 
 import { getFamilyPasswordConfig } from "@/lib/profileConfig";
 import { getAppProfileById } from "@/lib/profiles";
+import {
+  createProfileSessionToken,
+  verifyProfileSessionToken,
+} from "@/lib/profileSession";
 
 type ProfileSessionRequest = {
   profileId?: unknown;
   password?: unknown;
+  sessionToken?: unknown;
 };
 
 export async function POST(request: Request) {
@@ -37,6 +42,21 @@ export async function POST(request: Request) {
       );
     }
 
+    if (
+      typeof body.sessionToken === "string" &&
+      verifyProfileSessionToken(body.sessionToken, profile, configuredPassword)
+    ) {
+      return NextResponse.json({
+        profile: {
+          id: profile.id,
+          label: profile.label,
+          role: profile.role,
+          capabilities: profile.capabilities,
+        },
+        sessionToken: body.sessionToken,
+      });
+    }
+
     if (typeof body.password !== "string" || body.password !== configuredPassword) {
       return NextResponse.json(
         { error: "The family password is incorrect." },
@@ -52,5 +72,8 @@ export async function POST(request: Request) {
       role: profile.role,
       capabilities: profile.capabilities,
     },
+    sessionToken: profile.requiresFamilyPassword
+      ? createProfileSessionToken(profile, getFamilyPasswordConfig() ?? "")
+      : null,
   });
 }
