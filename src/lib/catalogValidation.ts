@@ -1,14 +1,13 @@
 import {
+  CATALOG_BORROWER_NAME_MAX_LENGTH,
   CATALOG_ITEM_KINDS,
   CATALOG_ITEM_STATUSES,
+  CATALOG_NOTE_MAX_LENGTH,
   CatalogItemKind,
   CatalogItemStatus,
   CreateCatalogItemInput,
   UpdateCatalogItemInput,
-} from "@/lib/catalog";
-
-export const CATALOG_NOTE_MAX_LENGTH = 500;
-export const CATALOG_BORROWER_NAME_MAX_LENGTH = 120;
+} from "@/lib/catalogContract";
 
 export type CatalogItemValidationError = {
   field: "id" | "title" | "kind" | "status" | "note" | "borrowerName";

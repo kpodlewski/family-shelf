@@ -1,4 +1,4 @@
-import type { CatalogItemKind, CatalogItemStatus } from "@/lib/catalog";
+import type { CatalogItemKind, CatalogItemStatus } from "@/lib/catalogContract";
 
 export function formatItemStatus(status: CatalogItemStatus): string {
   switch (status) {

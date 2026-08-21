@@ -10,7 +10,7 @@ import {
   CATALOG_ITEM_STATUSES,
   CatalogItemKind,
   CatalogItemStatus,
-} from "@/lib/catalog";
+} from "@/lib/catalogContract";
 import { formatItemKind, formatItemStatus } from "@/lib/formatItemStatus";
 
 type CatalogCreateResponse = {

@@ -5,12 +5,12 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useActiveProfileSession } from "@/components/ProfileGate";
-import { CATALOG_ITEM_STATUSES } from "@/lib/catalog";
-import type { CatalogItem, CatalogItemStatus } from "@/lib/catalog";
 import {
   CATALOG_BORROWER_NAME_MAX_LENGTH,
+  CATALOG_ITEM_STATUSES,
   CATALOG_NOTE_MAX_LENGTH,
-} from "@/lib/catalogValidation";
+} from "@/lib/catalogContract";
+import type { CatalogItem, CatalogItemStatus } from "@/lib/catalogContract";
 import { formatItemStatus } from "@/lib/formatItemStatus";
 
 type CatalogUpdateResponse = {
