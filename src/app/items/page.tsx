@@ -1,9 +1,21 @@
-import { listCatalogItems } from '@/lib/catalog'
+import { listCatalogItems, searchCatalogItems } from '@/lib/catalog'
 import { formatItemKind, formatItemStatus } from '@/lib/formatItemStatus'
 import { ProfileAccessNotice } from '@/components/ProfileAccessNotice'
 
-export default function ItemsPage() {
-  const items = listCatalogItems()
+type ItemsPageProps = {
+  searchParams?: Promise<{
+    q?: string | string[]
+  }>
+}
+
+function getQueryValue(query: string | string[] | undefined): string {
+  return Array.isArray(query) ? query[0] ?? '' : query ?? ''
+}
+
+export default async function ItemsPage({ searchParams }: ItemsPageProps) {
+  const params = await searchParams
+  const query = getQueryValue(params?.q)
+  const items = query.trim() ? searchCatalogItems(query) : listCatalogItems()
 
   return (
     <main className="mx-auto flex min-h-screen max-w-4xl flex-col gap-6 p-6">
