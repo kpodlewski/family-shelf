@@ -124,6 +124,12 @@ const sql = neon(getDatabaseUrl());
 const schema = await readFile(schemaPath, "utf8");
 await sql.query(schema);
 
+await sql`
+  DELETE FROM catalog_items
+  WHERE id LIKE ${"contract-%"}
+    OR title LIKE ${"Duplicate Contract contract-%"}
+`;
+
 for (const item of seedItems) {
   await sql`
     INSERT INTO catalog_items (
@@ -188,28 +194,37 @@ assert.equal(searchItems(items, "   ").length, items.length, "whitespace search 
 assert.equal(searchItems(items, "not-in-this-catalog").length, 0, "unmatched search should return no items");
 
 const duplicateTitle = `Duplicate Contract ${contractRunId}`;
-const createdRows = await sql`
-  INSERT INTO catalog_items (id, title, kind, status, note)
-  VALUES
-    (${`${contractRunId}-one`}, ${duplicateTitle}, ${"book"}, ${"available"}, ${"first note"}),
-    (${`${contractRunId}-two`}, ${duplicateTitle}, ${"book"}, ${"available"}, ${null})
-  RETURNING id, title, kind, status, borrower_name, borrowed_date, note
-`;
-const createdItems = createdRows.map(rowToItem);
 
-assert.equal(createdItems.length, 2, "create contract should allow duplicate titles");
-assert.notEqual(createdItems[0].id, createdItems[1].id, "duplicate titles should keep distinct ids");
-assert.equal(createdItems[0].title, duplicateTitle, "created item should keep the validated title");
-assert.equal(createdItems[0].note, "first note", "created item should store note text");
-assert.equal(createdItems[1].note, null, "created item should allow a nullable note");
+try {
+  const createdRows = await sql`
+    INSERT INTO catalog_items (id, title, kind, status, note)
+    VALUES
+      (${`${contractRunId}-one`}, ${duplicateTitle}, ${"book"}, ${"available"}, ${"first note"}),
+      (${`${contractRunId}-two`}, ${duplicateTitle}, ${"book"}, ${"available"}, ${null})
+    RETURNING id, title, kind, status, borrower_name, borrowed_date, note
+  `;
+  const createdItems = createdRows.map(rowToItem);
 
-await assert.rejects(
-  () => sql`
-    INSERT INTO catalog_items (id, title, kind, status)
-    VALUES (${`${contractRunId}-empty-title`}, ${"   "}, ${"book"}, ${"available"})
-  `,
-  /title|constraint|violates/i,
-  "database contract should reject blank titles",
-);
+  assert.equal(createdItems.length, 2, "create contract should allow duplicate titles");
+  assert.notEqual(createdItems[0].id, createdItems[1].id, "duplicate titles should keep distinct ids");
+  assert.equal(createdItems[0].title, duplicateTitle, "created item should keep the validated title");
+  assert.equal(createdItems[0].note, "first note", "created item should store note text");
+  assert.equal(createdItems[1].note, null, "created item should allow a nullable note");
+
+  await assert.rejects(
+    () => sql`
+      INSERT INTO catalog_items (id, title, kind, status)
+      VALUES (${`${contractRunId}-empty-title`}, ${"   "}, ${"book"}, ${"available"})
+    `,
+    /title|constraint|violates/i,
+    "database contract should reject blank titles",
+  );
+} finally {
+  await sql`
+    DELETE FROM catalog_items
+    WHERE id LIKE ${`${contractRunId}-%`}
+      OR title = ${duplicateTitle}
+  `;
+}
 
 console.log("Catalog contract check passed.");
