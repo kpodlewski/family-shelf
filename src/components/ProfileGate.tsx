@@ -27,9 +27,13 @@ type StoredProfileSession = {
 
 const storageKey = "family-shelf:selected-profile";
 
-const ProfileSessionContext = createContext<StoredProfile | null>(null);
+const ProfileSessionContext = createContext<StoredProfileSession | null>(null);
 
 export function useActiveProfile() {
+  return useContext(ProfileSessionContext)?.profile ?? null;
+}
+
+export function useActiveProfileSession() {
   return useContext(ProfileSessionContext);
 }
 
@@ -43,6 +47,7 @@ function storedProfileCan(
 export function ProfileGate({ children }: { children: ReactNode }) {
   const profiles = useMemo(() => listAppProfiles(), []);
   const [selectedProfile, setSelectedProfile] = useState<StoredProfile | null>(null);
+  const [selectedSessionToken, setSelectedSessionToken] = useState<string | null>(null);
   const [candidateProfileId, setCandidateProfileId] = useState(profiles[0]?.id ?? "");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -77,12 +82,15 @@ export function ProfileGate({ children }: { children: ReactNode }) {
 
               if (response.ok && payload.profile) {
                 setSelectedProfile(payload.profile);
+                setSelectedSessionToken(payload.sessionToken ?? null);
                 window.localStorage.setItem(storageKey, JSON.stringify(payload));
               } else {
+                setSelectedSessionToken(null);
                 window.localStorage.removeItem(storageKey);
               }
             } else {
               setSelectedProfile(storedProfile);
+              setSelectedSessionToken(parsed.sessionToken ?? null);
             }
           } else {
             window.localStorage.removeItem(storageKey);
@@ -122,6 +130,7 @@ export function ProfileGate({ children }: { children: ReactNode }) {
       }
 
       setSelectedProfile(payload.profile);
+      setSelectedSessionToken(payload.sessionToken ?? null);
       setPassword("");
       window.localStorage.setItem(storageKey, JSON.stringify(payload));
     } catch {
@@ -134,6 +143,7 @@ export function ProfileGate({ children }: { children: ReactNode }) {
   function switchProfile() {
     window.localStorage.removeItem(storageKey);
     setSelectedProfile(null);
+    setSelectedSessionToken(null);
     setPassword("");
     setError(null);
   }
@@ -146,7 +156,12 @@ export function ProfileGate({ children }: { children: ReactNode }) {
     const canWriteCatalog = storedProfileCan(selectedProfile, "catalog:write");
 
     return (
-      <ProfileSessionContext.Provider value={selectedProfile}>
+      <ProfileSessionContext.Provider
+        value={{
+          profile: selectedProfile,
+          sessionToken: selectedSessionToken,
+        }}
+      >
         <div className="border-b border-slate-200 bg-white px-6 py-3">
           <div className="mx-auto flex max-w-5xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-wrap items-center gap-2 text-sm">
