@@ -281,33 +281,33 @@ There is no data migration. The only required environment setup is the shared fa
 
 #### Automated
 
-- [x] 1.1 `npm.cmd run check:profiles` passes.
-- [x] 1.2 `npm.cmd run check:catalog` still passes.
-- [x] 1.3 `npm.cmd run build` passes.
-- [x] 1.4 `npm.cmd run lint` passes.
+- [x] 1.1 `npm.cmd run check:profiles` passes. — b9d6b1f
+- [x] 1.2 `npm.cmd run check:catalog` still passes. — b9d6b1f
+- [x] 1.3 `npm.cmd run build` passes. — b9d6b1f
+- [x] 1.4 `npm.cmd run lint` passes. — b9d6b1f
 
 #### Manual
 
-- [x] 1.5 Profile names in source and docs are neutral placeholders, not private family names.
-- [x] 1.6 The profile contract clearly distinguishes family write capability from guest read/search capability.
-- [x] 1.7 No source file contains a real family password.
+- [x] 1.5 Profile names in source and docs are neutral placeholders, not private family names. — b9d6b1f
+- [x] 1.6 The profile contract clearly distinguishes family write capability from guest read/search capability. — b9d6b1f
+- [x] 1.7 No source file contains a real family password. — b9d6b1f
 
 ### Phase 2: Profile Selection And Session Memory
 
 #### Automated
 
-- [ ] 2.1 `npm.cmd run check:profiles` passes.
-- [ ] 2.2 `npm.cmd run build` passes with the new client/server boundary.
-- [ ] 2.3 `npm.cmd run lint` passes.
+- [x] 2.1 `npm.cmd run check:profiles` passes.
+- [x] 2.2 `npm.cmd run build` passes with the new client/server boundary.
+- [x] 2.3 `npm.cmd run lint` passes.
 
 #### Manual
 
-- [ ] 2.4 First visit without a stored profile shows profile selection before catalog content.
-- [ ] 2.5 Choosing guest enters the app without password.
-- [ ] 2.6 Choosing a family profile requires the shared family password.
-- [ ] 2.7 An incorrect family password shows an understandable error and does not enter the app.
-- [ ] 2.8 A successful profile selection survives browser refresh.
-- [ ] 2.9 Switching profile clears the current selection and returns to profile choice.
+- [x] 2.4 First visit without a stored profile shows profile selection before catalog content.
+- [x] 2.5 Choosing guest enters the app without password.
+- [x] 2.6 Choosing a family profile requires the shared family password.
+- [x] 2.7 An incorrect family password shows an understandable error and does not enter the app.
+- [x] 2.8 A successful profile selection survives browser refresh.
+- [x] 2.9 Switching profile clears the current selection and returns to profile choice.
 
 ### Phase 3: UI Adoption And Read-Only Signals
 
