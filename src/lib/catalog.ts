@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 
 import { getSqlClient } from "@/lib/database";
+import { AppProfile, profileCan } from "@/lib/profiles";
 
 export type CatalogItemStatus = "available" | "borrowed";
 
@@ -151,7 +152,12 @@ export async function searchCatalogItems(query: string): Promise<CatalogItem[]> 
 
 export async function createCatalogItem(
   input: CreateCatalogItemInput,
+  actorProfile: AppProfile,
 ): Promise<CatalogItem> {
+  if (!profileCan(actorProfile, "catalog:write")) {
+    throw new Error("Profile cannot create catalog items.");
+  }
+
   const sql = getSqlClient();
   const title = input.title.trim();
   const note = input.note?.trim() || null;
