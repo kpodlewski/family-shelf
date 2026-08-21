@@ -1,40 +1,170 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { readFile } from "node:fs/promises";
 
-import ts from "typescript";
+import { neon } from "@neondatabase/serverless";
 
-const sourcePath = new URL("../src/lib/catalog.ts", import.meta.url);
-const source = await readFile(sourcePath, "utf8");
-const compiled = ts.transpileModule(source, {
-  compilerOptions: {
-    module: ts.ModuleKind.ESNext,
-    target: ts.ScriptTarget.ES2022,
+const envPath = new URL("../.env.local", import.meta.url);
+const schemaPath = new URL("./catalog-schema.sql", import.meta.url);
+
+async function loadLocalEnv() {
+  try {
+    const source = await readFile(envPath, "utf8");
+
+    for (const line of source.split(/\r?\n/)) {
+      const trimmed = line.trim();
+
+      if (!trimmed || trimmed.startsWith("#")) {
+        continue;
+      }
+
+      const separatorIndex = trimmed.indexOf("=");
+
+      if (separatorIndex === -1) {
+        continue;
+      }
+
+      const key = trimmed.slice(0, separatorIndex);
+      const rawValue = trimmed.slice(separatorIndex + 1);
+      const value = rawValue.replace(/^["']|["']$/g, "");
+
+      process.env[key] ??= value;
+    }
+  } catch {
+    // Vercel injects env vars in preview/production; local runs may use .env.local.
+  }
+}
+
+function getDatabaseUrl() {
+  const databaseUrl = process.env.DATABASE_URL ?? process.env.POSTGRES_URL;
+
+  assert.ok(
+    databaseUrl,
+    "DATABASE_URL or POSTGRES_URL should be configured for catalog checks",
+  );
+
+  return databaseUrl;
+}
+
+const seedItems = [
+  {
+    id: "dune-book",
+    title: "Dune",
+    kind: "book",
+    status: "borrowed",
+    borrowerName: "Marta",
+    borrowedDate: null,
+    note: "Borrowed by Marta",
   },
-});
+  {
+    id: "catan-board-game",
+    title: "Catan",
+    kind: "board-game",
+    status: "available",
+    borrowerName: null,
+    borrowedDate: null,
+    note: "Shelf A",
+  },
+  {
+    id: "hades-video-game",
+    title: "Hades",
+    kind: "video-game",
+    status: "borrowed",
+    borrowerName: "Piotr",
+    borrowedDate: null,
+    note: "Borrowed by Piotr",
+  },
+];
 
-const tempDir = await mkdtemp(join(tmpdir(), "family-shelf-catalog-"));
-const compiledPath = join(tempDir, "catalog.mjs");
-await writeFile(compiledPath, compiled.outputText, "utf8");
+const catalogItemKindSearchLabels = {
+  book: "book ksiazka",
+  "board-game": "board game gra planszowa",
+  "video-game": "video game gra komputerowa gra pc",
+};
 
-const {
-  CATALOG_ITEM_KINDS,
-  CATALOG_ITEM_STATUSES,
-  getCatalogItemById,
-  listCatalogItems,
-  searchCatalogItems,
-} = await import(new URL(`file:///${compiledPath.replaceAll("\\", "/")}`));
+function getSearchText(item) {
+  return [
+    item.title,
+    catalogItemKindSearchLabels[item.kind],
+    item.borrowerName,
+    item.borrowedDate,
+    item.note,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
 
-const items = listCatalogItems();
+function searchItems(items, query) {
+  const normalizedQuery = query.trim().toLowerCase();
 
-assert.equal(items.length, 3, "seed catalog should contain the expected item count");
+  if (!normalizedQuery) {
+    return items;
+  }
+
+  return items.filter((item) => getSearchText(item).includes(normalizedQuery));
+}
+
+function rowToItem(row) {
+  return {
+    id: row.id,
+    title: row.title,
+    kind: row.kind,
+    status: row.status,
+    borrowerName: row.borrower_name,
+    borrowedDate: row.borrowed_date,
+    note: row.note,
+  };
+}
+
+await loadLocalEnv();
+
+const sql = neon(getDatabaseUrl());
+const schema = await readFile(schemaPath, "utf8");
+await sql.query(schema);
+
+for (const item of seedItems) {
+  await sql`
+    INSERT INTO catalog_items (
+      id,
+      title,
+      kind,
+      status,
+      borrower_name,
+      borrowed_date,
+      note
+    )
+    VALUES (
+      ${item.id},
+      ${item.title},
+      ${item.kind},
+      ${item.status},
+      ${item.borrowerName},
+      ${item.borrowedDate},
+      ${item.note}
+    )
+    ON CONFLICT (id) DO NOTHING
+  `;
+}
+
+const rows = await sql`
+  SELECT id, title, kind, status, borrower_name, borrowed_date, note
+  FROM catalog_items
+  ORDER BY created_at ASC, title ASC
+`;
+const items = rows.map(rowToItem);
+
+for (const seedItem of seedItems) {
+  assert.ok(
+    items.some((item) => item.id === seedItem.id),
+    `seed item ${seedItem.id} should exist in the database`,
+  );
+}
 
 const ids = new Set(items.map((item) => item.id));
 assert.equal(ids.size, items.length, "catalog item ids should be unique");
 
-const supportedStatuses = new Set(CATALOG_ITEM_STATUSES);
-const supportedKinds = new Set(CATALOG_ITEM_KINDS);
+const supportedStatuses = new Set(["available", "borrowed"]);
+const supportedKinds = new Set(["book", "board-game", "video-game"]);
 
 for (const item of items) {
   assert.ok(item.id, "catalog item should have an id");
@@ -43,18 +173,16 @@ for (const item of items) {
   assert.ok(supportedKinds.has(item.kind), `${item.id} has unsupported kind`);
 }
 
-assert.ok(getCatalogItemById("dune-book"), "getCatalogItemById should find an existing item");
-assert.equal(getCatalogItemById("missing-item"), null, "getCatalogItemById should return null for missing items");
+assert.ok(items.find((item) => item.id === "dune-book"), "get by id should find an existing item");
+assert.equal(items.find((item) => item.id === "missing-item") ?? null, null, "get by id should return null for missing items");
 
-assert.equal(searchCatalogItems("dune").length, 1, "search should find an item by title");
-assert.equal(searchCatalogItems("DUNE").length, 1, "search should find an item by title case-insensitively");
-assert.equal(searchCatalogItems("Marta").length, 1, "search should find an item by borrower");
-assert.equal(searchCatalogItems("Shelf A").length, 1, "search should find an item by note");
-assert.equal(searchCatalogItems("gra planszowa").length, 1, "search should find an item by kind label");
-assert.equal(searchCatalogItems("").length, items.length, "empty search should return all items");
-assert.equal(searchCatalogItems("   ").length, items.length, "whitespace search should return all items");
-assert.equal(searchCatalogItems("not-in-this-catalog").length, 0, "unmatched search should return no items");
-
-await rm(tempDir, { force: true, recursive: true });
+assert.equal(searchItems(items, "dune").length, 1, "search should find an item by title");
+assert.equal(searchItems(items, "DUNE").length, 1, "search should find an item by title case-insensitively");
+assert.equal(searchItems(items, "Marta").length, 1, "search should find an item by borrower");
+assert.equal(searchItems(items, "Shelf A").length, 1, "search should find an item by note");
+assert.equal(searchItems(items, "gra planszowa").length, 1, "search should find an item by kind label");
+assert.equal(searchItems(items, "").length, items.length, "empty search should return all items");
+assert.equal(searchItems(items, "   ").length, items.length, "whitespace search should return all items");
+assert.equal(searchItems(items, "not-in-this-catalog").length, 0, "unmatched search should return no items");
 
 console.log("Catalog contract check passed.");

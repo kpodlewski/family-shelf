@@ -2,8 +2,10 @@ import Link from 'next/link'
 import { listCatalogItems } from '@/lib/catalog'
 import { formatItemKind, formatItemStatus } from '@/lib/formatItemStatus'
 
-export default function Home() {
-  const items = listCatalogItems()
+export const dynamic = 'force-dynamic'
+
+export default async function Home() {
+  const items = await listCatalogItems()
 
   return (
     <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-8 p-6">
@@ -26,7 +28,7 @@ export default function Home() {
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-xl font-semibold">Recent items</h2>
-          <span className="text-sm text-slate-500">3 visible</span>
+          <span className="text-sm text-slate-500">{items.length} visible</span>
         </div>
         <div className="grid gap-3">
           {items.map((item) => (

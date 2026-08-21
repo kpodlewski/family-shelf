@@ -18,7 +18,9 @@ export default async function ItemsPage({ searchParams }: ItemsPageProps) {
   const params = await searchParams
   const query = getQueryValue(params?.q)
   const normalizedQuery = query.trim()
-  const items = normalizedQuery ? searchCatalogItems(normalizedQuery) : listCatalogItems()
+  const items = normalizedQuery
+    ? await searchCatalogItems(normalizedQuery)
+    : await listCatalogItems()
 
   return (
     <main className="mx-auto flex min-h-screen max-w-4xl flex-col gap-6 p-6">
