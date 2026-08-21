@@ -47,9 +47,13 @@ assert.ok(getCatalogItemById("dune-book"), "getCatalogItemById should find an ex
 assert.equal(getCatalogItemById("missing-item"), null, "getCatalogItemById should return null for missing items");
 
 assert.equal(searchCatalogItems("dune").length, 1, "search should find an item by title");
+assert.equal(searchCatalogItems("DUNE").length, 1, "search should find an item by title case-insensitively");
 assert.equal(searchCatalogItems("Marta").length, 1, "search should find an item by borrower");
 assert.equal(searchCatalogItems("Shelf A").length, 1, "search should find an item by note");
 assert.equal(searchCatalogItems("gra planszowa").length, 1, "search should find an item by kind label");
+assert.equal(searchCatalogItems("").length, items.length, "empty search should return all items");
+assert.equal(searchCatalogItems("   ").length, items.length, "whitespace search should return all items");
+assert.equal(searchCatalogItems("not-in-this-catalog").length, 0, "unmatched search should return no items");
 
 await rm(tempDir, { force: true, recursive: true });
 
