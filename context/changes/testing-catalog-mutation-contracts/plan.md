@@ -322,31 +322,31 @@ No database schema migration is expected. The new script creates and deletes con
 
 #### Automated
 
-- [x] 3.1 `npm.cmd run check:catalog-api` fails if guest or missing profile evidence can create/update/delete.
-- [x] 3.2 `npm.cmd run check:catalog-api` fails if invalid update data mutates a durable row.
-- [x] 3.3 `npm.cmd run check:catalog-api` fails if delete succeeds without a valid admin token.
-- [x] 3.4 `npm.cmd run build` passes.
-- [x] 3.5 `npm.cmd run lint` passes.
+- [x] 3.1 `npm.cmd run check:catalog-api` fails if guest or missing profile evidence can create/update/delete. — cbcb01c
+- [x] 3.2 `npm.cmd run check:catalog-api` fails if invalid update data mutates a durable row. — cbcb01c
+- [x] 3.3 `npm.cmd run check:catalog-api` fails if delete succeeds without a valid admin token. — cbcb01c
+- [x] 3.4 `npm.cmd run build` passes. — cbcb01c
+- [x] 3.5 `npm.cmd run lint` passes. — cbcb01c
 
 #### Manual
 
-- [x] 3.6 Negative assertions are readable and name the endpoint/status expectation.
-- [x] 3.7 The script does not print family password, admin password, profile session token, or admin token.
-- [x] 3.8 The negative matrix stays focused and does not attempt exhaustive malformed-request fuzzing.
+- [x] 3.6 Negative assertions are readable and name the endpoint/status expectation. — cbcb01c
+- [x] 3.7 The script does not print family password, admin password, profile session token, or admin token. — cbcb01c
+- [x] 3.8 The negative matrix stays focused and does not attempt exhaustive malformed-request fuzzing. — cbcb01c
 
 ### Phase 4: Gate Docs And Cookbook
 
 #### Automated
 
-- [ ] 4.1 `npm.cmd run check:catalog` passes.
-- [ ] 4.2 `npm.cmd run check:catalog-api` passes against the local app server.
-- [ ] 4.3 `npm.cmd run check:profiles` passes.
-- [ ] 4.4 `npm.cmd run build` passes.
-- [ ] 4.5 `npm.cmd run lint` passes.
-- [ ] 4.6 `context/foundation/test-plan.md` §6.2 no longer contains the Phase 2 TBD placeholder.
+- [x] 4.1 `npm.cmd run check:catalog` passes.
+- [x] 4.2 `npm.cmd run check:catalog-api` passes against the local app server.
+- [x] 4.3 `npm.cmd run check:profiles` passes.
+- [x] 4.4 `npm.cmd run build` passes.
+- [x] 4.5 `npm.cmd run lint` passes.
+- [x] 4.6 `context/foundation/test-plan.md` §6.2 no longer contains the Phase 2 TBD placeholder.
 
 #### Manual
 
-- [ ] 4.7 A future agent can tell from docs that `check:catalog-api` requires a local running app.
-- [ ] 4.8 The cookbook explains how to add future catalog mutation contracts without mutating seed/user rows.
-- [ ] 4.9 Phase 2 status can be marked complete after the shipped checks pass.
+- [x] 4.7 A future agent can tell from docs that `check:catalog-api` requires a local running app.
+- [x] 4.8 The cookbook explains how to add future catalog mutation contracts without mutating seed/user rows.
+- [x] 4.9 Phase 2 status can be marked complete after the shipped checks pass.

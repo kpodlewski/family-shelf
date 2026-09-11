@@ -24,6 +24,12 @@ Running `npm.cmd run check:catalog` applies the schema if needed, inserts the st
 seed catalog rows, and verifies read/search/create/update/delete behavior against
 the configured database.
 
+`npm.cmd run check:catalog-api` verifies the HTTP catalog mutation boundary against
+a running local app server. It targets `http://localhost:3000` by default; set
+`FAMILY_SHELF_CATALOG_API_BASE_URL` only when intentionally checking another local
+or disposable preview target. Run `check:catalog` first so schema and seed rows are
+ready, then start the app locally before running `check:catalog-api`.
+
 ## Verification
 
 Before shipping a preview or production change:
@@ -33,11 +39,12 @@ Before shipping a preview or production change:
 3. Confirm `FAMILY_SHELF_FAMILY_PASSWORD` is configured in the target environment.
 4. Confirm `FAMILY_SHELF_ADMIN_PASSWORD` is configured in the target environment.
 5. Run `npm.cmd run check:catalog`.
-6. Run `npm.cmd run check:profiles`.
-7. Run `npm.cmd run build`.
-8. Run `npm.cmd run lint`.
-9. Run `npm.cmd run check:smoke`.
-10. Manually verify admin unlock and item delete in the target environment using a disposable item.
+6. Start the app locally and run `npm.cmd run check:catalog-api`.
+7. Run `npm.cmd run check:profiles`.
+8. Run `npm.cmd run build`.
+9. Run `npm.cmd run lint`.
+10. Run `npm.cmd run check:smoke`.
+11. Manually verify admin unlock and item delete in the target environment using a disposable item.
 
 `check:smoke` targets production by default. It expects production Vercel
 environment variables to be configured and redeployed, and it expects stable

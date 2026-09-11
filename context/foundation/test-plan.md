@@ -115,7 +115,7 @@ phase lands; before that, the gate is `planned`.
 | lint | local + CI | required | syntactic and React/Next lint drift |
 | production build | local + CI | required | TypeScript, App Router, server/client boundary drift |
 | profile contract | local + CI | required after §3 Phase 1 | broken profile roles/capabilities/login contract |
-| catalog contract | local + CI | required after §3 Phase 2 | durable catalog read/write/delete regressions |
+| catalog contract (`check:catalog` + `check:catalog-api`) | local + CI | required after §3 Phase 2 | durable catalog read/write/delete regressions across DB and HTTP/API boundaries |
 | authorization integration | local + CI | required after §3 Phase 3 | guest/family/admin server-side access regressions |
 | critical login/catalog e2e | CI on PR or pre-prod smoke | required after §3 Phase 4 | broken app entry and item viewing flow |
 | production env smoke (`npm.cmd run check:smoke`) | after deploy | recommended after §3 Phase 1 | missing password/database env vars on Vercel |
@@ -137,7 +137,13 @@ the relevant rollout phase ships; before that, the sub-section reads
 
 ### 6.2 Adding a catalog integration test
 
-TBD - see §3 Phase 2 for list/search/add/update/delete durable catalog patterns.
+- **Location**: keep direct database/schema/read-search coverage in `scripts/check-catalog.mjs`; put HTTP mutation boundary coverage in `scripts/check-catalog-api.mjs`.
+- **Run order**: run `npm.cmd run check:catalog`, start the app locally, then run `npm.cmd run check:catalog-api`.
+- **Targeting**: `check:catalog-api` defaults to `http://localhost:3000`; use `FAMILY_SHELF_CATALOG_API_BASE_URL` only for an intentional local or disposable preview target.
+- **Pattern**: obtain profile/admin tokens through `/api/profile-session` and `/api/admin-session`, treat tokens as opaque, mutate only contract-owned rows through `POST /api/catalog-items`, `PATCH /api/catalog-items/[id]`, and `DELETE /api/catalog-items/[id]`, and use database readback as the durable oracle.
+- **Cleanup**: wrap mutation checks in cleanup that deletes only rows matching the current `contract-*` run id or title pattern; never update or delete seed/user rows.
+- **Negative cases**: include focused auth and validation assertions such as missing/guest/invalid profile evidence, invalid update payloads, missing admin token, invalid admin token, and missing-row delete `404`.
+- **Anti-patterns**: do not rely on DOM-only form state, do not mirror token internals or HMAC signatures, do not duplicate only the SQL checks already covered by `check:catalog`, and do not run mutation smoke against production data.
 
 ### 6.3 Adding an authorization regression test
 
