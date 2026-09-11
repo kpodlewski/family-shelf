@@ -277,30 +277,30 @@ Installing Playwright may add a lockfile change and may require browser installa
 
 #### Automated
 
-- [x] 1.1 `npm.cmd run lint` passes with Playwright files present.
-- [x] 1.2 `npm.cmd run build` passes with Playwright files present.
-- [x] 1.3 `npm.cmd run check:e2e` starts Playwright and fails readably if the app server is not running or passwords are missing.
+- [x] 1.1 `npm.cmd run lint` passes with Playwright files present. (commit `0969e51`)
+- [x] 1.2 `npm.cmd run build` passes with Playwright files present. (commit `0969e51`)
+- [x] 1.3 `npm.cmd run check:e2e` starts Playwright and fails readably if the app server is not running or passwords are missing. (commit `0969e51`)
 
 #### Manual
 
-- [x] 1.4 Playwright config defaults to local app usage and documents the base URL override in code or comments where helpful.
-- [x] 1.5 Helpers use env-backed passwords and do not commit raw secrets.
-- [x] 1.6 No browser test mutates catalog rows in this phase.
+- [x] 1.4 Playwright config defaults to local app usage and documents the base URL override in code or comments where helpful. (commit `0969e51`)
+- [x] 1.5 Helpers use env-backed passwords and do not commit raw secrets. (commit `0969e51`)
+- [x] 1.6 No browser test mutates catalog rows in this phase. (commit `0969e51`)
 
 ### Phase 2: Family Login And Catalog Search E2E
 
 #### Automated
 
-- [ ] 2.1 `npm.cmd run check:catalog` passes before e2e.
-- [ ] 2.2 With the local app server running, `npm.cmd run check:e2e` proves family login reaches `/items`.
-- [ ] 2.3 `npm.cmd run check:e2e` proves a known seed title is visible after login.
-- [ ] 2.4 `npm.cmd run check:e2e` proves search filters the visible catalog UI.
+- [x] 2.1 `npm.cmd run check:catalog` passes before e2e.
+- [x] 2.2 With the local app server running, `npm.cmd run check:e2e` proves family login reaches `/items`.
+- [x] 2.3 `npm.cmd run check:e2e` proves a known seed title is visible after login.
+- [x] 2.4 `npm.cmd run check:e2e` proves search filters the visible catalog UI.
 
 #### Manual
 
-- [ ] 2.5 The test reads like a user flow and does not bypass profile selection with internal token creation.
-- [ ] 2.6 Assertions are based on stable user-visible text, not pixel positions or snapshots.
-- [ ] 2.7 The test does not create, update, or delete catalog rows.
+- [x] 2.5 The test reads like a user flow and does not bypass profile selection with internal token creation.
+- [x] 2.6 Assertions are based on stable user-visible text, not pixel positions or snapshots.
+- [x] 2.7 The test does not create, update, or delete catalog rows.
 
 ### Phase 3: Guest And Admin Visibility Boundaries
 
