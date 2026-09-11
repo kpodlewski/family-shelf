@@ -382,16 +382,16 @@ No schema migration is expected because `catalog_items` already has stable ids a
 
 #### Automated
 
-- [x] 4.1 `npm.cmd run check:catalog` passes in the configured environment.
-- [x] 4.2 `npm.cmd run check:profiles` passes.
-- [x] 4.3 `npm.cmd run build` passes.
-- [x] 4.4 `npm.cmd run lint` passes.
+- [x] 4.1 `npm.cmd run check:catalog` passes in the configured environment. — 20802a9
+- [x] 4.2 `npm.cmd run check:profiles` passes. — 20802a9
+- [x] 4.3 `npm.cmd run build` passes. — 20802a9
+- [x] 4.4 `npm.cmd run lint` passes. — 20802a9
 
 #### Manual
 
-- [x] 4.5 Admin can unlock from `/admin` with the admin password.
-- [x] 4.6 Admin-unlocked family session can delete a test item from `/items`.
-- [x] 4.7 Family session without admin unlock cannot delete.
-- [x] 4.8 Guest session cannot delete, even with a stale UI state.
-- [x] 4.9 Existing add/update/search flows still work after delete UI is present.
-- [x] 4.10 No full login, admin profile picker entry, bulk delete, soft delete, or audit log was added.
+- [x] 4.5 Admin can unlock from `/admin` with the admin password. — 20802a9
+- [x] 4.6 Admin-unlocked family session can delete a test item from `/items`. — 20802a9
+- [x] 4.7 Family session without admin unlock cannot delete. — 20802a9
+- [x] 4.8 Guest session cannot delete, even with a stale UI state. — 20802a9
+- [x] 4.9 Existing add/update/search flows still work after delete UI is present. — 20802a9
+- [x] 4.10 No full login, admin profile picker entry, bulk delete, soft delete, or audit log was added. — 20802a9
