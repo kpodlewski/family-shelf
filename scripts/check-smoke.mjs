@@ -6,6 +6,7 @@ const DEFAULT_BASE_URL = "https://family-shelf-gamma.vercel.app";
 const baseUrl = (process.env.FAMILY_SHELF_SMOKE_BASE_URL ?? DEFAULT_BASE_URL).replace(/\/+$/, "");
 const familyPasswordName = "FAMILY_SHELF_FAMILY_PASSWORD";
 const adminPasswordName = "FAMILY_SHELF_ADMIN_PASSWORD";
+const seedTitles = ["Dune", "Catan", "Hades"];
 const redacted = "[redacted]";
 
 async function loadLocalEnv() {
@@ -72,6 +73,14 @@ async function postJson(path, body) {
   return { response, payload, url, safeRequest: safeBody(body) };
 }
 
+async function getText(path) {
+  const url = `${baseUrl}${path}`;
+  const response = await fetch(url);
+  const text = await response.text();
+
+  return { response, text, url };
+}
+
 function assertStatus(result, expectedStatus, label) {
   assert.equal(
     result.response.status,
@@ -116,4 +125,21 @@ const adminWrongPassword = await postJson("/api/admin-session", {
 });
 assertStatus(adminWrongPassword, 401, "admin wrong password");
 
-console.log(`Smoke check passed for session endpoints at ${baseUrl}.`);
+const itemsPage = await getText("/items");
+assert.equal(
+  itemsPage.response.status,
+  200,
+  `/items expected HTTP 200, got ${itemsPage.response.status} from ${itemsPage.url}`,
+);
+assert.ok(
+  itemsPage.text.includes("Item catalog"),
+  `/items should render the catalog shell at ${itemsPage.url}`,
+);
+
+const foundSeedTitle = seedTitles.find((title) => itemsPage.text.includes(title));
+assert.ok(
+  foundSeedTitle,
+  `/items should render at least one known seed title (${seedTitles.join(", ")}). Run npm.cmd run check:catalog before smoke to ensure seed rows exist.`,
+);
+
+console.log(`Smoke check passed for session endpoints and /items at ${baseUrl}.`);

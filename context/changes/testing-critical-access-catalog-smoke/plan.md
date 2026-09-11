@@ -277,29 +277,29 @@ No data migration. `check:smoke` depends on existing stable seed catalog rows; `
 
 #### Automated
 
-- [x] 1.1 `npm.cmd run check:smoke` reaches both session endpoints and passes the valid/wrong credential assertions.
-- [x] 1.2 Smoke output redacts password values.
-- [x] 1.3 `npm.cmd run lint` passes.
+- [x] 1.1 `npm.cmd run check:smoke` reaches both session endpoints and passes the valid/wrong credential assertions. — 48ec489
+- [x] 1.2 Smoke output redacts password values. — 48ec489
+- [x] 1.3 `npm.cmd run lint` passes. — 48ec489
 
 #### Manual
 
-- [x] 1.4 Temporarily changing the local family password value causes the family valid-credential assertion to fail without printing the secret.
-- [x] 1.5 Temporarily changing the local admin password value causes the admin valid-credential assertion to fail without printing the secret.
+- [x] 1.4 Temporarily changing the local family password value causes the family valid-credential assertion to fail without printing the secret. — 48ec489
+- [x] 1.5 Temporarily changing the local admin password value causes the admin valid-credential assertion to fail without printing the secret. — 48ec489
 
 ### Phase 2: Production `/items` Catalog Smoke
 
 #### Automated
 
-- [ ] 2.1 `npm.cmd run check:catalog` passes before smoke.
-- [ ] 2.2 `npm.cmd run check:smoke` asserts production `/items` returns `200`.
-- [ ] 2.3 `npm.cmd run check:smoke` asserts production `/items` includes a known seed title.
-- [ ] 2.4 `npm.cmd run build` passes.
-- [ ] 2.5 `npm.cmd run lint` passes.
+- [x] 2.1 `npm.cmd run check:catalog` passes before smoke.
+- [x] 2.2 `npm.cmd run check:smoke` asserts production `/items` returns `200`.
+- [x] 2.3 `npm.cmd run check:smoke` asserts production `/items` includes a known seed title.
+- [x] 2.4 `npm.cmd run build` passes.
+- [x] 2.5 `npm.cmd run lint` passes.
 
 #### Manual
 
-- [ ] 2.6 Running smoke against production catches a bad or stale production deployment URL.
-- [ ] 2.7 Running smoke before catalog seed rows exist produces an actionable failure message.
+- [x] 2.6 Running smoke against production catches a bad or stale production deployment URL.
+- [x] 2.7 Running smoke before catalog seed rows exist produces an actionable failure message.
 
 ### Phase 3: Deployment Documentation And Gate Placement
 
