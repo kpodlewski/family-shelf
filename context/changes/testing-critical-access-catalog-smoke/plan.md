@@ -317,15 +317,15 @@ No data migration. `check:smoke` depends on existing stable seed catalog rows; `
 
 #### Automated
 
-- [x] 4.1 `npm.cmd run check:profiles` passes.
-- [x] 4.2 `npm.cmd run check:catalog` passes.
-- [x] 4.3 `npm.cmd run check:smoke` passes against production.
-- [x] 4.4 `npm.cmd run build` passes.
-- [x] 4.5 `npm.cmd run lint` passes.
-- [x] 4.6 `context/foundation/test-plan.md` §6.1 and §6.5 no longer contain TBD placeholders for this phase.
+- [x] 4.1 `npm.cmd run check:profiles` passes. — 8c41250
+- [x] 4.2 `npm.cmd run check:catalog` passes. — 8c41250
+- [x] 4.3 `npm.cmd run check:smoke` passes against production. — 8c41250
+- [x] 4.4 `npm.cmd run build` passes. — 8c41250
+- [x] 4.5 `npm.cmd run lint` passes. — 8c41250
+- [x] 4.6 `context/foundation/test-plan.md` §6.1 and §6.5 no longer contain TBD placeholders for this phase. — 8c41250
 
 #### Manual
 
-- [x] 4.7 Smoke failures are readable enough to distinguish wrong credentials, missing seed data, and unreachable production URL.
-- [x] 4.8 No secret values appear in command output, docs, or committed files.
-- [x] 4.9 Phase 1 status can be marked complete after the shipped checks pass.
+- [x] 4.7 Smoke failures are readable enough to distinguish wrong credentials, missing seed data, and unreachable production URL. — 8c41250
+- [x] 4.8 No secret values appear in command output, docs, or committed files. — 8c41250
+- [x] 4.9 Phase 1 status can be marked complete after the shipped checks pass. — 8c41250
