@@ -14,6 +14,9 @@ Local development can use `.env.local`; it is ignored by git and must not be com
 Vercel preview and production environments should receive database variables from the
 connected Neon Marketplace resource.
 
+Changing `FAMILY_SHELF_FAMILY_PASSWORD` or `FAMILY_SHELF_ADMIN_PASSWORD` in
+Vercel requires a fresh deployment before production uses the new value.
+
 ## Database Setup
 
 The expected table shape is defined in `scripts/catalog-schema.sql`.
@@ -33,7 +36,13 @@ Before shipping a preview or production change:
 6. Run `npm.cmd run check:profiles`.
 7. Run `npm.cmd run build`.
 8. Run `npm.cmd run lint`.
-9. Manually verify admin unlock and item delete in the target environment using a disposable item.
+9. Run `npm.cmd run check:smoke`.
+10. Manually verify admin unlock and item delete in the target environment using a disposable item.
+
+`check:smoke` targets production by default. It expects production Vercel
+environment variables to be configured and redeployed, and it expects stable
+catalog seed rows to exist; run `check:catalog` first when seed rows may be
+missing.
 
 ## Rollback Notes
 

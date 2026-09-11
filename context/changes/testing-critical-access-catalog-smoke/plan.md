@@ -290,28 +290,28 @@ No data migration. `check:smoke` depends on existing stable seed catalog rows; `
 
 #### Automated
 
-- [x] 2.1 `npm.cmd run check:catalog` passes before smoke.
-- [x] 2.2 `npm.cmd run check:smoke` asserts production `/items` returns `200`.
-- [x] 2.3 `npm.cmd run check:smoke` asserts production `/items` includes a known seed title.
-- [x] 2.4 `npm.cmd run build` passes.
-- [x] 2.5 `npm.cmd run lint` passes.
+- [x] 2.1 `npm.cmd run check:catalog` passes before smoke. — 90dc1dd
+- [x] 2.2 `npm.cmd run check:smoke` asserts production `/items` returns `200`. — 90dc1dd
+- [x] 2.3 `npm.cmd run check:smoke` asserts production `/items` includes a known seed title. — 90dc1dd
+- [x] 2.4 `npm.cmd run build` passes. — 90dc1dd
+- [x] 2.5 `npm.cmd run lint` passes. — 90dc1dd
 
 #### Manual
 
-- [x] 2.6 Running smoke against production catches a bad or stale production deployment URL.
-- [x] 2.7 Running smoke before catalog seed rows exist produces an actionable failure message.
+- [x] 2.6 Running smoke against production catches a bad or stale production deployment URL. — 90dc1dd
+- [x] 2.7 Running smoke before catalog seed rows exist produces an actionable failure message. — 90dc1dd
 
 ### Phase 3: Deployment Documentation And Gate Placement
 
 #### Automated
 
-- [ ] 3.1 `npm.cmd run check:smoke` is documented in `docs/deployment.md`.
-- [ ] 3.2 `context/foundation/test-plan.md` §5 references the shipped smoke command.
+- [x] 3.1 `npm.cmd run check:smoke` is documented in `docs/deployment.md`.
+- [x] 3.2 `context/foundation/test-plan.md` §5 references the shipped smoke command.
 
 #### Manual
 
-- [ ] 3.3 A reader can follow deployment docs to understand when to run `check:smoke`.
-- [ ] 3.4 Docs state that Vercel env changes require redeploy.
+- [x] 3.3 A reader can follow deployment docs to understand when to run `check:smoke`.
+- [x] 3.4 Docs state that Vercel env changes require redeploy.
 
 ### Phase 4: Cookbook Update And Final Verification
 
