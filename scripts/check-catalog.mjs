@@ -288,4 +288,42 @@ try {
   `;
 }
 
+const deleteItemId = `${contractRunId}-delete`;
+const deleteItemTitle = `Delete Contract ${contractRunId}`;
+
+try {
+  await sql`
+    INSERT INTO catalog_items (id, title, kind, status, note)
+    VALUES (${deleteItemId}, ${deleteItemTitle}, ${"book"}, ${"available"}, ${"delete contract note"})
+  `;
+
+  const deletedRows = await sql`
+    DELETE FROM catalog_items
+    WHERE id = ${deleteItemId}
+    RETURNING id, title, kind, status, borrower_name, borrowed_date, note
+  `;
+  const deletedItem = rowToItem(deletedRows[0]);
+
+  assert.equal(deletedRows.length, 1, "delete contract should return one deleted item");
+  assert.equal(deletedItem.id, deleteItemId, "delete should return the deleted item id");
+  assert.equal(deletedItem.title, deleteItemTitle, "delete should return the deleted item title");
+
+  const rowsAfterDelete = await sql`
+    SELECT id, title, kind, status, borrower_name, borrowed_date, note
+    FROM catalog_items
+    WHERE id = ${deleteItemId}
+       OR title = ${deleteItemTitle}
+  `;
+  const itemsAfterDelete = rowsAfterDelete.map(rowToItem);
+
+  assert.equal(itemsAfterDelete.length, 0, "deleted item should no longer exist");
+  assert.equal(searchItems(itemsAfterDelete, deleteItemTitle).length, 0, "deleted item should not be searchable");
+} finally {
+  await sql`
+    DELETE FROM catalog_items
+    WHERE id = ${deleteItemId}
+      OR title = ${deleteItemTitle}
+  `;
+}
+
 console.log("Catalog contract check passed.");

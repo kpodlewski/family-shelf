@@ -5,6 +5,7 @@ import {
   CatalogItemKind,
   CatalogItemStatus,
   CreateCatalogItemInput,
+  DeleteCatalogItemInput,
   UpdateCatalogItemInput,
 } from "@/lib/catalogContract";
 import { getSqlClient } from "@/lib/database";
@@ -185,6 +186,19 @@ export async function updateCatalogItem(
       borrower_name = ${borrowerName},
       note = ${note},
       updated_at = now()
+    WHERE id = ${input.id}
+    RETURNING id, title, kind, status, borrower_name, borrowed_date, note
+  `) as CatalogItemRow[];
+
+  return rows[0] ? rowToCatalogItem(rows[0]) : null;
+}
+
+export async function deleteCatalogItem(
+  input: DeleteCatalogItemInput,
+): Promise<CatalogItem | null> {
+  const sql = getSqlClient();
+  const rows = (await sql`
+    DELETE FROM catalog_items
     WHERE id = ${input.id}
     RETURNING id, title, kind, status, borrower_name, borrowed_date, note
   `) as CatalogItemRow[];

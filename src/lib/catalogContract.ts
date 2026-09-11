@@ -28,6 +28,10 @@ export type UpdateCatalogItemInput = {
   borrowerName?: string | null;
 };
 
+export type DeleteCatalogItemInput = {
+  id: string;
+};
+
 export const CATALOG_ITEM_STATUSES = ["available", "borrowed"] as const;
 
 export const CATALOG_ITEM_KINDS = ["book", "board-game", "video-game"] as const;

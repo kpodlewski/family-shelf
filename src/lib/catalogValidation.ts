@@ -6,6 +6,7 @@ import {
   CatalogItemKind,
   CatalogItemStatus,
   CreateCatalogItemInput,
+  DeleteCatalogItemInput,
   UpdateCatalogItemInput,
 } from "@/lib/catalogContract";
 
@@ -28,6 +29,16 @@ export type UpdateCatalogItemValidationResult =
   | {
       ok: true;
       value: UpdateCatalogItemInput;
+    }
+  | {
+      ok: false;
+      errors: CatalogItemValidationError[];
+    };
+
+export type DeleteCatalogItemValidationResult =
+  | {
+      ok: true;
+      value: DeleteCatalogItemInput;
     }
   | {
       ok: false;
@@ -135,5 +146,23 @@ export function validateUpdateCatalogItemInput(
       note: note || null,
       borrowerName: borrowerName || null,
     },
+  };
+}
+
+export function validateDeleteCatalogItemInput(
+  input: Record<string, unknown>,
+): DeleteCatalogItemValidationResult {
+  const id = normalizeStringValue(input.id);
+
+  if (!id) {
+    return {
+      ok: false,
+      errors: [{ field: "id", message: "Item id is required." }],
+    };
+  }
+
+  return {
+    ok: true,
+    value: { id },
   };
 }

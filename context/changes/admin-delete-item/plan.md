@@ -330,34 +330,34 @@ No schema migration is expected because `catalog_items` already has stable ids a
 
 #### Automated
 
-- [x] 1.1 `npm.cmd run check:profiles` passes.
-- [x] 1.2 `npm.cmd run build` passes with the admin session route and client UI.
-- [x] 1.3 `npm.cmd run lint` passes.
+- [x] 1.1 `npm.cmd run check:profiles` passes. — 5270523
+- [x] 1.2 `npm.cmd run build` passes with the admin session route and client UI. — 5270523
+- [x] 1.3 `npm.cmd run lint` passes. — 5270523
 
 #### Manual
 
-- [x] 1.4 `/admin` shows an admin password form before unlock.
-- [x] 1.5 Wrong admin password shows a readable error.
-- [x] 1.6 Correct admin password unlocks admin mode and survives refresh in the same browser.
-- [x] 1.7 Clearing admin unlock removes admin mode without changing the selected family profile.
-- [x] 1.8 Missing admin password config fails with a readable message.
+- [x] 1.4 `/admin` shows an admin password form before unlock. — 5270523
+- [x] 1.5 Wrong admin password shows a readable error. — 5270523
+- [x] 1.6 Correct admin password unlocks admin mode and survives refresh in the same browser. — 5270523
+- [x] 1.7 Clearing admin unlock removes admin mode without changing the selected family profile. — 5270523
+- [x] 1.8 Missing admin password config fails with a readable message. — 5270523
 
 ### Phase 2: Delete Repository And API
 
 #### Automated
 
-- [ ] 2.1 `npm.cmd run check:catalog` passes with delete contract coverage.
-- [ ] 2.2 `npm.cmd run check:profiles` passes.
-- [ ] 2.3 `npm.cmd run build` passes.
-- [ ] 2.4 `npm.cmd run lint` passes.
+- [x] 2.1 `npm.cmd run check:catalog` passes with delete contract coverage.
+- [x] 2.2 `npm.cmd run check:profiles` passes.
+- [x] 2.3 `npm.cmd run build` passes.
+- [x] 2.4 `npm.cmd run lint` passes.
 
 #### Manual
 
-- [ ] 2.5 Server rejects delete without active family profile evidence.
-- [ ] 2.6 Server rejects delete without admin token.
-- [ ] 2.7 Server rejects delete with guest profile evidence.
-- [ ] 2.8 Deleting a missing item returns a readable `404`.
-- [ ] 2.9 Delete changes only the intended item and does not affect seed/user rows.
+- [x] 2.5 Server rejects delete without active family profile evidence.
+- [x] 2.6 Server rejects delete without admin token.
+- [x] 2.7 Server rejects delete with guest profile evidence.
+- [x] 2.8 Deleting a missing item returns a readable `404`.
+- [x] 2.9 Delete changes only the intended item and does not affect seed/user rows.
 
 ### Phase 3: Delete UI On `/items`
 
