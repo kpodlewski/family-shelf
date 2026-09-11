@@ -21,11 +21,11 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 | ID | Type | Outcome | Change ID | Prerequisites | PRD refs | Status |
 |---|---|---|---|---|---|---|
-| F-01 | foundation | Minimal shared catalog state exists so vertical slices can read and update the same items. | catalog-state-contract | none | FR-004, FR-005, FR-006, FR-007, FR-008, US-01, US-02 | ready |
-| S-01 | slice | Family member can open the shared app and choose a simple profile. | shared-entry-profile-selection | none | FR-001, FR-002, US-01, US-02 | in-progress |
-| S-02 | slice | Family member can search for an item and see its current status and note. | search-current-item-state | F-01, S-01 | FR-005, FR-006, FR-008, US-01 | proposed |
-| S-03 | slice | Family member can add a new item that appears in the catalog. | add-catalog-item | F-01, S-01 | FR-004, FR-005, US-01 | proposed |
-| S-04 | slice | Family member can change borrowing status and note for an item. | update-borrowing-state | F-01, S-02, S-03 | FR-006, FR-007, FR-008, US-02 | proposed |
+| F-01 | foundation | Minimal shared catalog state exists so vertical slices can read and update the same items. | catalog-state-contract | none | FR-004, FR-005, FR-006, FR-007, FR-008, US-01, US-02 | impl_reviewed |
+| S-01 | slice | Family member can open the shared app and choose a simple profile. | shared-entry-profile-selection | none | FR-001, FR-002, US-01, US-02 | impl_reviewed |
+| S-02 | slice | Family member can search for an item and see its current status and note. | search-current-item-state | F-01, S-01 | FR-005, FR-006, FR-008, US-01 | impl_reviewed |
+| S-03 | slice | Family member can add a new item that appears in the catalog. | add-catalog-item | F-01, S-01 | FR-004, FR-005, US-01 | impl_reviewed |
+| S-04 | slice | Family member can change borrowing status and note for an item. | update-borrowing-state | F-01, S-02, S-03 | FR-006, FR-007, FR-008, US-02 | impl_reviewed |
 | S-05 | slice | Admin can unlock protected destructive actions and delete an item. | admin-delete-item | F-01, S-01, S-03 | FR-003, FR-009, US-03 | proposed |
 
 ## Baseline
@@ -59,7 +59,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: If this grows into a full data layer up front, it will slow the MVP. Keep it to the minimum state contract required by the first visible flows.
 
-**Status**: ready
+**Status**: impl_reviewed
 
 **Unlocks**: S-02, S-03, S-04, S-05
 
@@ -85,7 +85,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: Overbuilding profile privacy would violate the PRD's explicit non-goal. Keep profiles lightweight and shared-family oriented.
 
-**Status**: in-progress
+**Status**: impl_reviewed
 
 ### S-02: Family member can search for an item and see its current status and note.
 
@@ -107,7 +107,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: This slice can absorb too much UI polish. Ship the smallest status-and-note lookup that proves the family can find an item.
 
-**Status**: proposed
+**Status**: impl_reviewed
 
 ### S-03: Family member can add a new item that appears in the catalog.
 
@@ -129,7 +129,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: Adding too many fields recreates the removed "edit item details" scope. Keep the item shape narrow.
 
-**Status**: proposed
+**Status**: impl_reviewed
 
 ### S-04: Family member can change borrowing status and note for an item.
 
@@ -151,7 +151,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: Status history is explicitly out of scope. Store only the current visible state unless the PRD changes.
 
-**Status**: proposed
+**Status**: impl_reviewed
 
 ### S-05: Admin can unlock protected destructive actions and delete an item.
 
@@ -179,11 +179,11 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 | Roadmap ID | Change ID | Suggested handoff |
 |---|---|---|
-| F-01 | catalog-state-contract | `/10x-plan catalog-state-contract` |
-| S-01 | shared-entry-profile-selection | `/10x-plan shared-entry-profile-selection` |
-| S-02 | search-current-item-state | `/10x-plan search-current-item-state` |
-| S-03 | add-catalog-item | `/10x-plan add-catalog-item` |
-| S-04 | update-borrowing-state | `/10x-plan update-borrowing-state` |
+| F-01 | catalog-state-contract | completed |
+| S-01 | shared-entry-profile-selection | completed |
+| S-02 | search-current-item-state | completed |
+| S-03 | add-catalog-item | completed |
+| S-04 | update-borrowing-state | completed |
 | S-05 | admin-delete-item | `/10x-plan admin-delete-item` |
 
 ## Open Roadmap Questions
@@ -202,4 +202,8 @@ No blocking roadmap questions. Implementation details such as the specific persi
 
 ## Done
 
-No roadmap items are done yet.
+- F-01 `catalog-state-contract`
+- S-01 `shared-entry-profile-selection`
+- S-02 `search-current-item-state`
+- S-03 `add-catalog-item`
+- S-04 `update-borrowing-state`

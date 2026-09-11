@@ -1,6 +1,6 @@
 ---
-change_id: shared-entry-profile-selection
-title: Shared entry profile selection
+change_id: search-current-item-state
+title: Search current item state
 status: impl_reviewed
 created: 2026-08-21
 updated: 2026-08-21

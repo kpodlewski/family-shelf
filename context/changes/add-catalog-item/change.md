@@ -1,6 +1,6 @@
 ---
-change_id: shared-entry-profile-selection
-title: Shared entry profile selection
+change_id: add-catalog-item
+title: Add catalog item
 status: impl_reviewed
 created: 2026-08-21
 updated: 2026-08-21

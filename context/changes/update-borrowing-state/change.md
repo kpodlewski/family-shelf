@@ -1,6 +1,6 @@
 ---
-change_id: shared-entry-profile-selection
-title: Shared entry profile selection
+change_id: update-borrowing-state
+title: Update borrowing state
 status: impl_reviewed
 created: 2026-08-21
 updated: 2026-08-21
