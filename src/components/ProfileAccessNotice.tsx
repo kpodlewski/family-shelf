@@ -15,7 +15,7 @@ export function ProfileAccessNotice() {
     <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
       <span className="font-medium text-slate-900">{profile.label}</span>
       {canWriteCatalog
-        ? " can add and update items in the shared catalog."
+        ? " can add and update items in the shared catalog. Delete actions require admin unlock."
         : " can browse and search only. Add, update, and delete actions stay unavailable."}
     </div>
   );

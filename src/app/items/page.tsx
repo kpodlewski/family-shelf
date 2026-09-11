@@ -5,6 +5,7 @@ import { CatalogSearchForm } from '@/components/CatalogSearchForm'
 import { ProfileAccessNotice } from '@/components/ProfileAccessNotice'
 import { AddCatalogItemForm } from '@/components/AddCatalogItemForm'
 import { UpdateCatalogItemForm } from '@/components/UpdateCatalogItemForm'
+import { DeleteCatalogItemForm } from '@/components/DeleteCatalogItemForm'
 
 type ItemsPageProps = {
   searchParams?: Promise<{
@@ -66,6 +67,7 @@ export default async function ItemsPage({ searchParams }: ItemsPageProps) {
                   </span>
                 </div>
                 <UpdateCatalogItemForm item={item} />
+                <DeleteCatalogItemForm item={item} />
               </div>
             ))}
           </div>

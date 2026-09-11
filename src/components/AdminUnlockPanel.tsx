@@ -3,12 +3,12 @@
 import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 
+import { ADMIN_SESSION_STORAGE_KEY } from "@/lib/adminSessionStorage";
+
 type AdminSessionResponse = {
   adminToken?: string;
   error?: string;
 };
-
-const adminStorageKey = "family-shelf:admin-session";
 
 export function AdminUnlockPanel() {
   const [adminToken, setAdminToken] = useState<string | null>(null);
@@ -20,7 +20,7 @@ export function AdminUnlockPanel() {
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      const storedToken = window.localStorage.getItem(adminStorageKey);
+      const storedToken = window.localStorage.getItem(ADMIN_SESSION_STORAGE_KEY);
 
       if (!storedToken) {
         setIsHydrated(true);
@@ -42,12 +42,12 @@ export function AdminUnlockPanel() {
 
           if (response.ok && payload.adminToken) {
             setAdminToken(payload.adminToken);
-            window.localStorage.setItem(adminStorageKey, payload.adminToken);
+            window.localStorage.setItem(ADMIN_SESSION_STORAGE_KEY, payload.adminToken);
           } else {
-            window.localStorage.removeItem(adminStorageKey);
+            window.localStorage.removeItem(ADMIN_SESSION_STORAGE_KEY);
           }
         } catch {
-          window.localStorage.removeItem(adminStorageKey);
+          window.localStorage.removeItem(ADMIN_SESSION_STORAGE_KEY);
         } finally {
           setIsVerifying(false);
           setIsHydrated(true);
@@ -82,7 +82,7 @@ export function AdminUnlockPanel() {
 
       setAdminToken(payload.adminToken);
       setPassword("");
-      window.localStorage.setItem(adminStorageKey, payload.adminToken);
+      window.localStorage.setItem(ADMIN_SESSION_STORAGE_KEY, payload.adminToken);
     } catch {
       setError("Could not reach the admin check. Try again.");
     } finally {
@@ -91,7 +91,7 @@ export function AdminUnlockPanel() {
   }
 
   function clearUnlock() {
-    window.localStorage.removeItem(adminStorageKey);
+    window.localStorage.removeItem(ADMIN_SESSION_STORAGE_KEY);
     setAdminToken(null);
     setPassword("");
     setError(null);

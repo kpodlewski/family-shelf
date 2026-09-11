@@ -346,37 +346,37 @@ No schema migration is expected because `catalog_items` already has stable ids a
 
 #### Automated
 
-- [x] 2.1 `npm.cmd run check:catalog` passes with delete contract coverage.
-- [x] 2.2 `npm.cmd run check:profiles` passes.
-- [x] 2.3 `npm.cmd run build` passes.
-- [x] 2.4 `npm.cmd run lint` passes.
+- [x] 2.1 `npm.cmd run check:catalog` passes with delete contract coverage. — 87c31c4
+- [x] 2.2 `npm.cmd run check:profiles` passes. — 87c31c4
+- [x] 2.3 `npm.cmd run build` passes. — 87c31c4
+- [x] 2.4 `npm.cmd run lint` passes. — 87c31c4
 
 #### Manual
 
-- [x] 2.5 Server rejects delete without active family profile evidence.
-- [x] 2.6 Server rejects delete without admin token.
-- [x] 2.7 Server rejects delete with guest profile evidence.
-- [x] 2.8 Deleting a missing item returns a readable `404`.
-- [x] 2.9 Delete changes only the intended item and does not affect seed/user rows.
+- [x] 2.5 Server rejects delete without active family profile evidence. — 87c31c4
+- [x] 2.6 Server rejects delete without admin token. — 87c31c4
+- [x] 2.7 Server rejects delete with guest profile evidence. — 87c31c4
+- [x] 2.8 Deleting a missing item returns a readable `404`. — 87c31c4
+- [x] 2.9 Delete changes only the intended item and does not affect seed/user rows. — 87c31c4
 
 ### Phase 3: Delete UI On `/items`
 
 #### Automated
 
-- [ ] 3.1 `npm.cmd run check:catalog` passes.
-- [ ] 3.2 `npm.cmd run check:profiles` passes.
-- [ ] 3.3 `npm.cmd run build` passes.
-- [ ] 3.4 `npm.cmd run lint` passes.
+- [x] 3.1 `npm.cmd run check:catalog` passes.
+- [x] 3.2 `npm.cmd run check:profiles` passes.
+- [x] 3.3 `npm.cmd run build` passes.
+- [x] 3.4 `npm.cmd run lint` passes.
 
 #### Manual
 
-- [ ] 3.5 Before admin unlock, `/items` does not show delete controls.
-- [ ] 3.6 After admin unlock, `/items` shows delete controls for catalog items.
-- [ ] 3.7 Clicking delete shows a standard confirmation dialog.
-- [ ] 3.8 Cancelling confirmation does not delete the item.
-- [ ] 3.9 Confirming deletion removes the item and returns to `/items`.
-- [ ] 3.10 Guest profile never sees enabled delete controls.
-- [ ] 3.11 Mobile-width layout keeps search, add, update, and delete controls readable.
+- [x] 3.5 Before admin unlock, `/items` does not show delete controls.
+- [x] 3.6 After admin unlock, `/items` shows delete controls for catalog items.
+- [x] 3.7 Clicking delete shows a standard confirmation dialog.
+- [x] 3.8 Cancelling confirmation does not delete the item.
+- [x] 3.9 Confirming deletion removes the item and returns to `/items`.
+- [x] 3.10 Guest profile never sees enabled delete controls.
+- [x] 3.11 Mobile-width layout keeps search, add, update, and delete controls readable.
 
 ### Phase 4: Final Verification And Handoff
 
