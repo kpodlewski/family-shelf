@@ -128,6 +128,18 @@ function assertStatus(result, expectedStatus, label) {
   );
 }
 
+function assertErrorPayload(result, label) {
+  assert.equal(typeof result.payload?.error, "string", `${label} should return a readable error`);
+  assert.ok(result.payload.error.length > 0, `${label} error should not be empty`);
+}
+
+function makeInvalidSession(session) {
+  return {
+    ...session,
+    sessionToken: `${session.sessionToken}-invalid`,
+  };
+}
+
 function rowToItem(row) {
   return {
     id: row.id,
@@ -182,6 +194,10 @@ async function assertSeedRowsStillExist(sql) {
   assert.ok(ids.has("dune-book"), "seed row dune-book should still exist");
   assert.ok(ids.has("catan-board-game"), "seed row catan-board-game should still exist");
   assert.ok(ids.has("hades-video-game"), "seed row hades-video-game should still exist");
+}
+
+async function assertItemUnchanged(sql, id, expectedFields, label) {
+  await assertCatalogItemById(sql, id, expectedFields, `${label} unchanged item`);
 }
 
 async function cleanupContractRows(sql) {
@@ -292,6 +308,48 @@ async function deleteCatalogItem(itemId, familySession, adminSession) {
   return assertCatalogPayloadItem(result, "delete catalog item");
 }
 
+async function expectCreateFailure(input, evidence, expectedStatus, label) {
+  const result = await requestJson("/api/catalog-items", {
+    method: "POST",
+    body: {
+      ...evidence,
+      ...input,
+    },
+  });
+
+  assertStatus(result, expectedStatus, label);
+  assertErrorPayload(result, label);
+
+  return result;
+}
+
+async function expectUpdateFailure(itemId, input, evidence, expectedStatus, label) {
+  const result = await requestJson(`/api/catalog-items/${encodeURIComponent(itemId)}`, {
+    method: "PATCH",
+    body: {
+      ...evidence,
+      ...input,
+    },
+  });
+
+  assertStatus(result, expectedStatus, label);
+  assertErrorPayload(result, label);
+
+  return result;
+}
+
+async function expectDeleteFailure(itemId, evidence, expectedStatus, label) {
+  const result = await requestJson(`/api/catalog-items/${encodeURIComponent(itemId)}`, {
+    method: "DELETE",
+    body: evidence,
+  });
+
+  assertStatus(result, expectedStatus, label);
+  assertErrorPayload(result, label);
+
+  return result;
+}
+
 await loadLocalEnv();
 
 const familyPassword = requireSecret(familyPasswordName);
@@ -399,6 +457,183 @@ try {
     },
     "cleared item",
   );
+
+  const cleanExpectedFields = {
+    title: createdTitle,
+    kind: "book",
+    status: "available",
+    borrowerName: null,
+    note: null,
+  };
+  const familyEvidence = {
+    profileId: familySession.profileId,
+    sessionToken: familySession.sessionToken,
+  };
+  const guestEvidence = {
+    profileId: "guest",
+    sessionToken: null,
+  };
+  const invalidFamilyEvidence = makeInvalidSession(familySession);
+
+  await expectCreateFailure(
+    {
+      title: `Missing Profile ${contractRunId}`,
+      kind: "book",
+      status: "available",
+      note: "should fail",
+    },
+    {},
+    400,
+    "create without profile evidence",
+  );
+  await expectCreateFailure(
+    {
+      title: `Guest Create ${contractRunId}`,
+      kind: "book",
+      status: "available",
+      note: "should fail",
+    },
+    guestEvidence,
+    403,
+    "guest create",
+  );
+  await expectCreateFailure(
+    {
+      title: `Invalid Session Create ${contractRunId}`,
+      kind: "book",
+      status: "available",
+      note: "should fail",
+    },
+    invalidFamilyEvidence,
+    401,
+    "invalid family session create",
+  );
+  await expectCreateFailure(
+    {
+      title: "   ",
+      kind: "book",
+      status: "available",
+      note: "should fail",
+    },
+    familyEvidence,
+    400,
+    "blank title create",
+  );
+  await assertMissingCatalogItem(sql, `${contractRunId}-missing-create`, "failed create");
+
+  await expectUpdateFailure(
+    createdItem.id,
+    {
+      status: "borrowed",
+      borrowerName: "Missing Profile",
+      note: "should fail",
+    },
+    {},
+    400,
+    "update without profile evidence",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "missing profile update");
+
+  await expectUpdateFailure(
+    createdItem.id,
+    {
+      status: "borrowed",
+      borrowerName: "Guest",
+      note: "should fail",
+    },
+    guestEvidence,
+    403,
+    "guest update",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "guest update");
+
+  await expectUpdateFailure(
+    createdItem.id,
+    {
+      status: "borrowed",
+      borrowerName: "Invalid Session",
+      note: "should fail",
+    },
+    invalidFamilyEvidence,
+    401,
+    "invalid family session update",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "invalid session update");
+
+  await expectUpdateFailure(
+    createdItem.id,
+    {
+      status: "lost",
+      borrowerName: "Invalid Status",
+      note: "should fail",
+    },
+    familyEvidence,
+    400,
+    "invalid status update",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "invalid status update");
+
+  await expectUpdateFailure(
+    createdItem.id,
+    {
+      status: "borrowed",
+      borrowerName: "x".repeat(121),
+      note: "should fail",
+    },
+    familyEvidence,
+    400,
+    "overlong borrower update",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "overlong borrower update");
+
+  await expectDeleteFailure(createdItem.id, {}, 400, "delete without profile evidence");
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "missing profile delete");
+
+  await expectDeleteFailure(
+    createdItem.id,
+    guestEvidence,
+    403,
+    "guest delete",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "guest delete");
+
+  await expectDeleteFailure(
+    createdItem.id,
+    invalidFamilyEvidence,
+    401,
+    "invalid family session delete",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "invalid session delete");
+
+  await expectDeleteFailure(
+    createdItem.id,
+    familyEvidence,
+    401,
+    "delete without admin token",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "missing admin token delete");
+
+  await expectDeleteFailure(
+    createdItem.id,
+    {
+      ...familyEvidence,
+      adminToken: `${adminSession.adminToken}-invalid`,
+    },
+    401,
+    "delete with invalid admin token",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "invalid admin token delete");
+
+  await expectDeleteFailure(
+    `${contractRunId}-missing-delete`,
+    {
+      ...familyEvidence,
+      adminToken: adminSession.adminToken,
+    },
+    404,
+    "delete missing item",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "missing item delete");
 
   const deletedItem = await deleteCatalogItem(createdItem.id, familySession, adminSession);
 

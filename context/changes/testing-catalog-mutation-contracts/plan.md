@@ -308,31 +308,31 @@ No database schema migration is expected. The new script creates and deletes con
 
 #### Automated
 
-- [x] 2.1 With the app running locally, `npm.cmd run check:catalog` passes before the API check.
-- [x] 2.2 With the app running locally, `npm.cmd run check:catalog-api` creates, updates, deletes, and cleans contract-owned rows.
-- [x] 2.3 `npm.cmd run check:catalog` still passes after `check:catalog-api`.
+- [x] 2.1 With the app running locally, `npm.cmd run check:catalog` passes before the API check. — d1a8ebf
+- [x] 2.2 With the app running locally, `npm.cmd run check:catalog-api` creates, updates, deletes, and cleans contract-owned rows. — d1a8ebf
+- [x] 2.3 `npm.cmd run check:catalog` still passes after `check:catalog-api`. — d1a8ebf
 
 #### Manual
 
-- [x] 2.4 The API contract rows do not remain in the database after a successful run.
-- [x] 2.5 Seed rows are not updated or deleted by the API contract.
-- [x] 2.6 The check output identifies create, update, delete, or cleanup failures clearly enough to act on.
+- [x] 2.4 The API contract rows do not remain in the database after a successful run. — d1a8ebf
+- [x] 2.5 Seed rows are not updated or deleted by the API contract. — d1a8ebf
+- [x] 2.6 The check output identifies create, update, delete, or cleanup failures clearly enough to act on. — d1a8ebf
 
 ### Phase 3: Negative API Matrix
 
 #### Automated
 
-- [ ] 3.1 `npm.cmd run check:catalog-api` fails if guest or missing profile evidence can create/update/delete.
-- [ ] 3.2 `npm.cmd run check:catalog-api` fails if invalid update data mutates a durable row.
-- [ ] 3.3 `npm.cmd run check:catalog-api` fails if delete succeeds without a valid admin token.
-- [ ] 3.4 `npm.cmd run build` passes.
-- [ ] 3.5 `npm.cmd run lint` passes.
+- [x] 3.1 `npm.cmd run check:catalog-api` fails if guest or missing profile evidence can create/update/delete.
+- [x] 3.2 `npm.cmd run check:catalog-api` fails if invalid update data mutates a durable row.
+- [x] 3.3 `npm.cmd run check:catalog-api` fails if delete succeeds without a valid admin token.
+- [x] 3.4 `npm.cmd run build` passes.
+- [x] 3.5 `npm.cmd run lint` passes.
 
 #### Manual
 
-- [ ] 3.6 Negative assertions are readable and name the endpoint/status expectation.
-- [ ] 3.7 The script does not print family password, admin password, profile session token, or admin token.
-- [ ] 3.8 The negative matrix stays focused and does not attempt exhaustive malformed-request fuzzing.
+- [x] 3.6 Negative assertions are readable and name the endpoint/status expectation.
+- [x] 3.7 The script does not print family password, admin password, profile session token, or admin token.
+- [x] 3.8 The negative matrix stays focused and does not attempt exhaustive malformed-request fuzzing.
 
 ### Phase 4: Gate Docs And Cookbook
 
