@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "check:catalog": "node scripts/check-catalog.mjs",
+    "check:smoke": "node scripts/check-smoke.mjs",
     "check:profiles": "node scripts/check-profiles.mjs",
     "start": "next start",
     "lint": "eslint"
