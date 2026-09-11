@@ -8,7 +8,7 @@ export default async function Home() {
   const items = await listCatalogItems()
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-8 p-6">
+    <main className="portal-page mx-auto flex min-h-screen max-w-5xl flex-col gap-8 p-6">
       <header className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <p className="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Family Shelf</p>
         <h1 className="text-3xl font-semibold">Keep your shared catalog simple</h1>

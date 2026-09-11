@@ -26,7 +26,7 @@ export default async function ItemsPage({ searchParams }: ItemsPageProps) {
     : await listCatalogItems()
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-4xl flex-col gap-6 p-6">
+    <main className="portal-page mx-auto flex min-h-screen max-w-4xl flex-col gap-6 p-6">
       <h1 className="text-3xl font-semibold">Item catalog</h1>
       <p className="text-slate-600">Search, add, and update items for the family inventory.</p>
       <ProfileAccessNotice />
