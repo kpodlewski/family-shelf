@@ -208,17 +208,21 @@ async function cleanupContractRows(sql) {
   `;
 }
 
-async function getFamilySession(familyPassword) {
+async function getFamilySession(familyPassword, profileId = "family-1") {
   const result = await requestJson("/api/profile-session", {
     method: "POST",
     body: {
-      profileId: "family-1",
+      profileId,
       password: familyPassword,
     },
   });
 
-  assertStatus(result, 200, "family profile session");
-  assert.equal(result.payload?.profile?.id, "family-1", "family session should return family-1");
+  assertStatus(result, 200, `${profileId} profile session`);
+  assert.equal(
+    result.payload?.profile?.id,
+    profileId,
+    `family session should return ${profileId}`,
+  );
   assert.equal(
     typeof result.payload?.sessionToken,
     "string",
@@ -357,10 +361,21 @@ const adminPassword = requireSecret(adminPasswordName);
 
 try {
   const familySession = await getFamilySession(familyPassword);
+  const secondFamilySession = await getFamilySession(familyPassword, "family-2");
   const adminSession = await getAdminSession(adminPassword);
 
   assert.equal(typeof familySession.profileId, "string", "family profile id should be present");
   assert.equal(typeof familySession.sessionToken, "string", "family session token should be present");
+  assert.equal(
+    typeof secondFamilySession.profileId,
+    "string",
+    "second family profile id should be present",
+  );
+  assert.equal(
+    typeof secondFamilySession.sessionToken,
+    "string",
+    "second family session token should be present",
+  );
   assert.equal(typeof adminSession.adminToken, "string", "admin token should be present");
 
   const sql = neon(getDatabaseUrl());
@@ -474,6 +489,10 @@ try {
     sessionToken: null,
   };
   const invalidFamilyEvidence = makeInvalidSession(familySession);
+  const mismatchedFamilyEvidence = {
+    profileId: secondFamilySession.profileId,
+    sessionToken: familySession.sessionToken,
+  };
 
   await expectCreateFailure(
     {
@@ -507,6 +526,17 @@ try {
     invalidFamilyEvidence,
     401,
     "invalid family session create",
+  );
+  await expectCreateFailure(
+    {
+      title: `Mismatched Family Create ${contractRunId}`,
+      kind: "book",
+      status: "available",
+      note: "should fail",
+    },
+    mismatchedFamilyEvidence,
+    401,
+    "mismatched family session create",
   );
   await expectCreateFailure(
     {
@@ -563,6 +593,19 @@ try {
   await expectUpdateFailure(
     createdItem.id,
     {
+      status: "borrowed",
+      borrowerName: "Mismatched Family",
+      note: "should fail",
+    },
+    mismatchedFamilyEvidence,
+    401,
+    "mismatched family session update",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "mismatched session update");
+
+  await expectUpdateFailure(
+    createdItem.id,
+    {
       status: "lost",
       borrowerName: "Invalid Status",
       note: "should fail",
@@ -604,6 +647,17 @@ try {
     "invalid family session delete",
   );
   await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "invalid session delete");
+
+  await expectDeleteFailure(
+    createdItem.id,
+    {
+      ...mismatchedFamilyEvidence,
+      adminToken: adminSession.adminToken,
+    },
+    401,
+    "mismatched family session delete",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "mismatched session delete");
 
   await expectDeleteFailure(
     createdItem.id,
