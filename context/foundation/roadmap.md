@@ -3,7 +3,7 @@ project: Family Shelf
 version: 1
 status: proposed
 created: 2026-07-24
-updated: 2026-08-21
+updated: 2026-09-11
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -26,7 +26,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 | S-02 | slice | Family member can search for an item and see its current status and note. | search-current-item-state | F-01, S-01 | FR-005, FR-006, FR-008, US-01 | impl_reviewed |
 | S-03 | slice | Family member can add a new item that appears in the catalog. | add-catalog-item | F-01, S-01 | FR-004, FR-005, US-01 | impl_reviewed |
 | S-04 | slice | Family member can change borrowing status and note for an item. | update-borrowing-state | F-01, S-02, S-03 | FR-006, FR-007, FR-008, US-02 | impl_reviewed |
-| S-05 | slice | Admin can unlock protected destructive actions and delete an item. | admin-delete-item | F-01, S-01, S-03 | FR-003, FR-009, US-03 | proposed |
+| S-05 | slice | Admin can unlock protected destructive actions and delete an item. | admin-delete-item | F-01, S-01, S-03 | FR-003, FR-009, US-03 | in-progress |
 
 ## Baseline
 
@@ -173,7 +173,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: Turning this into a full login system would violate the PRD non-goal. Keep the admin gate narrow and only for destructive actions.
 
-**Status**: proposed
+**Status**: in-progress
 
 ## Backlog Handoff
 
@@ -184,7 +184,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 | S-02 | search-current-item-state | completed |
 | S-03 | add-catalog-item | completed |
 | S-04 | update-borrowing-state | completed |
-| S-05 | admin-delete-item | `/10x-plan admin-delete-item` |
+| S-05 | admin-delete-item | `/10x-implement admin-delete-item phase 1` |
 
 ## Open Roadmap Questions
 
