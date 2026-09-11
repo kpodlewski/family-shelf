@@ -242,29 +242,29 @@ No database schema migration is expected. The implementation should reuse the ex
 
 #### Automated
 
-- [x] 2.1 `npm.cmd run check:catalog-api` fails if a valid admin token without profile evidence can delete.
-- [x] 2.2 `npm.cmd run check:catalog-api` fails if guest evidence plus a valid admin token can delete.
-- [x] 2.3 `npm.cmd run check:catalog-api` still proves successful delete removes only the intended contract row by id.
+- [x] 2.1 `npm.cmd run check:catalog-api` fails if a valid admin token without profile evidence can delete. -- 4297bb3
+- [x] 2.2 `npm.cmd run check:catalog-api` fails if guest evidence plus a valid admin token can delete. -- 4297bb3
+- [x] 2.3 `npm.cmd run check:catalog-api` still proves successful delete removes only the intended contract row by id. -- 4297bb3
 
 #### Manual
 
-- [x] 2.4 The delete negative matrix remains readable and not duplicated from Phase 2.
-- [x] 2.5 Expected statuses reflect route behavior: missing profile evidence returns `400`, guest read-only evidence returns `403`.
-- [x] 2.6 Admin token values are redacted in request/debug output.
+- [x] 2.4 The delete negative matrix remains readable and not duplicated from Phase 2. -- 4297bb3
+- [x] 2.5 Expected statuses reflect route behavior: missing profile evidence returns `400`, guest read-only evidence returns `403`. -- 4297bb3
+- [x] 2.6 Admin token values are redacted in request/debug output. -- 4297bb3
 
 ### Phase 3: Cookbook And Rollout Status
 
 #### Automated
 
-- [ ] 3.1 `npm.cmd run lint` passes.
-- [ ] 3.2 `npm.cmd run build` passes.
-- [ ] 3.3 `npm.cmd run check:profiles` passes.
-- [ ] 3.4 `npm.cmd run check:catalog` passes.
-- [ ] 3.5 With the local app server running, `npm.cmd run check:catalog-api` passes.
-- [ ] 3.6 `context/foundation/test-plan.md` section 6.3 no longer contains the Phase 3 TBD placeholder.
+- [x] 3.1 `npm.cmd run lint` passes.
+- [x] 3.2 `npm.cmd run build` passes.
+- [x] 3.3 `npm.cmd run check:profiles` passes.
+- [x] 3.4 `npm.cmd run check:catalog` passes.
+- [x] 3.5 With the local app server running, `npm.cmd run check:catalog-api` passes.
+- [x] 3.6 `context/foundation/test-plan.md` section 6.3 no longer contains the Phase 3 TBD placeholder.
 
 #### Manual
 
-- [ ] 3.7 The cookbook explains why hidden UI controls are not sufficient authorization proof.
-- [ ] 3.8 The cookbook explains why admin-token-only and guest-plus-admin delete cases matter.
-- [ ] 3.9 The final plan status can be advanced to complete after implementation commits land.
+- [x] 3.7 The cookbook explains why hidden UI controls are not sufficient authorization proof.
+- [x] 3.8 The cookbook explains why admin-token-only and guest-plus-admin delete cases matter.
+- [x] 3.9 The final plan status can be advanced to complete after implementation commits land.

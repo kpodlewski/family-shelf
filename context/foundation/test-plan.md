@@ -67,7 +67,7 @@ orchestrator updates Status as artifacts appear on disk.
 |---|---|---|---|---|---|---|
 | 1 | Critical access and catalog smoke | Prove a valid family/admin path can enter and see the catalog in the cheapest deployed-like way. | #1, #2 | contract + smoke | complete | `context/changes/testing-critical-access-catalog-smoke/` |
 | 2 | Catalog mutation contracts | Lock list/search/add/update/delete durable behavior before expanding UI tests. | #3, #5, #6 | contract + integration | complete | `context/changes/testing-catalog-mutation-contracts/` |
-| 3 | Authorization regression boundary | Prove guest/family/admin capability rules are enforced server-side, not just hidden in UI. | #4, #6 | contract + integration | implementing | `context/changes/testing-authorization-regression-boundary/` |
+| 3 | Authorization regression boundary | Prove guest/family/admin capability rules are enforced server-side, not just hidden in UI. | #4, #6 | contract + integration | complete | `context/changes/testing-authorization-regression-boundary/` |
 | 4 | Minimal UI and gate wiring | Add the smallest UI/e2e layer and required gates that protect login/catalog flows without pixel-perfect coverage. | #1, #2, #3, #4 | e2e + gates | not started | - |
 
 **Status vocabulary** (fixed - parser literals):
@@ -147,7 +147,13 @@ the relevant rollout phase ships; before that, the sub-section reads
 
 ### 6.3 Adding an authorization regression test
 
-TBD - see §3 Phase 3 for guest/family/admin capability boundary patterns.
+- **Location**: keep static role/capability shape checks in `scripts/check-profiles.mjs`; keep HTTP authorization-boundary regressions in `scripts/check-catalog-api.mjs`.
+- **Pattern**: obtain profile/admin tokens only through `/api/profile-session` and `/api/admin-session`, treat tokens as opaque, then call real mutation endpoints with intentionally wrong evidence combinations.
+- **Guest boundary**: prove guest evidence cannot create, update, or delete, even when paired with a valid admin token for destructive requests.
+- **Family session boundary**: prove a session token is bound to its selected family profile by sending a real token with a different family `profileId` and expecting `401`.
+- **Admin boundary**: prove admin unlock is necessary but not sufficient; delete still requires verified write-capable family evidence plus the valid admin token.
+- **Side-effect oracle**: use contract-owned rows and durable database readback to assert rejected update/delete attempts leave the target row unchanged; keep final successful delete by stable item id.
+- **Anti-patterns**: do not rely on hidden UI controls as authorization proof, do not decode or mirror HMAC/token internals, do not mutate seed/user rows, and do not duplicate the full mutation matrix when a narrower boundary case covers the risk.
 
 ### 6.4 Adding an e2e test for a critical user flow
 
