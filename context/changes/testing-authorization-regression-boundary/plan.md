@@ -256,15 +256,15 @@ No database schema migration is expected. The implementation should reuse the ex
 
 #### Automated
 
-- [x] 3.1 `npm.cmd run lint` passes.
-- [x] 3.2 `npm.cmd run build` passes.
-- [x] 3.3 `npm.cmd run check:profiles` passes.
-- [x] 3.4 `npm.cmd run check:catalog` passes.
-- [x] 3.5 With the local app server running, `npm.cmd run check:catalog-api` passes.
-- [x] 3.6 `context/foundation/test-plan.md` section 6.3 no longer contains the Phase 3 TBD placeholder.
+- [x] 3.1 `npm.cmd run lint` passes. -- 2a2496d
+- [x] 3.2 `npm.cmd run build` passes. -- 2a2496d
+- [x] 3.3 `npm.cmd run check:profiles` passes. -- 2a2496d
+- [x] 3.4 `npm.cmd run check:catalog` passes. -- 2a2496d
+- [x] 3.5 With the local app server running, `npm.cmd run check:catalog-api` passes. -- 2a2496d
+- [x] 3.6 `context/foundation/test-plan.md` section 6.3 no longer contains the Phase 3 TBD placeholder. -- 2a2496d
 
 #### Manual
 
-- [x] 3.7 The cookbook explains why hidden UI controls are not sufficient authorization proof.
-- [x] 3.8 The cookbook explains why admin-token-only and guest-plus-admin delete cases matter.
-- [x] 3.9 The final plan status can be advanced to complete after implementation commits land.
+- [x] 3.7 The cookbook explains why hidden UI controls are not sufficient authorization proof. -- 2a2496d
+- [x] 3.8 The cookbook explains why admin-token-only and guest-plus-admin delete cases matter. -- 2a2496d
+- [x] 3.9 The final plan status can be advanced to complete after implementation commits land. -- 2a2496d
