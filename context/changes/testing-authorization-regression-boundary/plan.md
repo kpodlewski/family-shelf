@@ -228,29 +228,29 @@ No database schema migration is expected. The implementation should reuse the ex
 
 #### Automated
 
-- [x] 1.1 `npm.cmd run check:catalog-api` fails if cross-profile family evidence can create a row.
-- [x] 1.2 `npm.cmd run check:catalog-api` fails if cross-profile family evidence can update the contract row.
-- [x] 1.3 `npm.cmd run check:catalog-api` fails if cross-profile family evidence plus a valid admin token can delete the contract row.
+- [x] 1.1 `npm.cmd run check:catalog-api` fails if cross-profile family evidence can create a row. -- 7d9dd5b
+- [x] 1.2 `npm.cmd run check:catalog-api` fails if cross-profile family evidence can update the contract row. -- 7d9dd5b
+- [x] 1.3 `npm.cmd run check:catalog-api` fails if cross-profile family evidence plus a valid admin token can delete the contract row. -- 7d9dd5b
 
 #### Manual
 
-- [x] 1.4 The new cases use public session endpoint responses and do not decode or mirror token internals.
-- [x] 1.5 Failure labels clearly identify cross-profile or mismatched family evidence.
-- [x] 1.6 The new cases do not create or mutate seed/user rows.
+- [x] 1.4 The new cases use public session endpoint responses and do not decode or mirror token internals. -- 7d9dd5b
+- [x] 1.5 Failure labels clearly identify cross-profile or mismatched family evidence. -- 7d9dd5b
+- [x] 1.6 The new cases do not create or mutate seed/user rows. -- 7d9dd5b
 
 ### Phase 2: Admin Token Composition Boundary
 
 #### Automated
 
-- [ ] 2.1 `npm.cmd run check:catalog-api` fails if a valid admin token without profile evidence can delete.
-- [ ] 2.2 `npm.cmd run check:catalog-api` fails if guest evidence plus a valid admin token can delete.
-- [ ] 2.3 `npm.cmd run check:catalog-api` still proves successful delete removes only the intended contract row by id.
+- [x] 2.1 `npm.cmd run check:catalog-api` fails if a valid admin token without profile evidence can delete.
+- [x] 2.2 `npm.cmd run check:catalog-api` fails if guest evidence plus a valid admin token can delete.
+- [x] 2.3 `npm.cmd run check:catalog-api` still proves successful delete removes only the intended contract row by id.
 
 #### Manual
 
-- [ ] 2.4 The delete negative matrix remains readable and not duplicated from Phase 2.
-- [ ] 2.5 Expected statuses reflect route behavior: missing profile evidence returns `400`, guest read-only evidence returns `403`.
-- [ ] 2.6 Admin token values are redacted in request/debug output.
+- [x] 2.4 The delete negative matrix remains readable and not duplicated from Phase 2.
+- [x] 2.5 Expected statuses reflect route behavior: missing profile evidence returns `400`, guest read-only evidence returns `403`.
+- [x] 2.6 Admin token values are redacted in request/debug output.
 
 ### Phase 3: Cookbook And Rollout Status
 

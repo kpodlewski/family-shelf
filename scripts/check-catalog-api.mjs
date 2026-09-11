@@ -634,11 +634,32 @@ try {
 
   await expectDeleteFailure(
     createdItem.id,
+    {
+      adminToken: adminSession.adminToken,
+    },
+    400,
+    "delete with admin token only",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "admin token only delete");
+
+  await expectDeleteFailure(
+    createdItem.id,
     guestEvidence,
     403,
     "guest delete",
   );
   await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "guest delete");
+
+  await expectDeleteFailure(
+    createdItem.id,
+    {
+      ...guestEvidence,
+      adminToken: adminSession.adminToken,
+    },
+    403,
+    "guest delete with admin token",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "guest admin token delete");
 
   await expectDeleteFailure(
     createdItem.id,
