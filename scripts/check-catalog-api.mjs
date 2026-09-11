@@ -151,6 +151,39 @@ async function getCatalogItemById(sql, id) {
   return rows[0] ? rowToItem(rows[0]) : null;
 }
 
+async function assertCatalogItemById(sql, id, expectedFields, label) {
+  const item = await getCatalogItemById(sql, id);
+
+  assert.ok(item, `${label} should exist in durable catalog readback`);
+
+  for (const [field, expectedValue] of Object.entries(expectedFields)) {
+    assert.equal(
+      item[field],
+      expectedValue,
+      `${label} durable readback should have ${field}=${JSON.stringify(expectedValue)}`,
+    );
+  }
+
+  return item;
+}
+
+async function assertMissingCatalogItem(sql, id, label) {
+  assert.equal(await getCatalogItemById(sql, id), null, `${label} should not exist`);
+}
+
+async function assertSeedRowsStillExist(sql) {
+  const rows = await sql`
+    SELECT id
+    FROM catalog_items
+    WHERE id IN (${"dune-book"}, ${"catan-board-game"}, ${"hades-video-game"})
+  `;
+  const ids = new Set(rows.map((row) => row.id));
+
+  assert.ok(ids.has("dune-book"), "seed row dune-book should still exist");
+  assert.ok(ids.has("catan-board-game"), "seed row catan-board-game should still exist");
+  assert.ok(ids.has("hades-video-game"), "seed row hades-video-game should still exist");
+}
+
 async function cleanupContractRows(sql) {
   await sql`
     DELETE FROM catalog_items
@@ -204,6 +237,61 @@ async function getAdminSession(adminPassword) {
   };
 }
 
+function assertCatalogPayloadItem(result, label) {
+  const item = result.payload?.item;
+
+  assert.ok(item, `${label} should return an item payload`);
+  assert.equal(typeof item.id, "string", `${label} item should include an id`);
+  assert.ok(item.id.length > 0, `${label} item id should not be empty`);
+
+  return item;
+}
+
+async function createCatalogItem(input, familySession) {
+  const result = await requestJson("/api/catalog-items", {
+    method: "POST",
+    body: {
+      profileId: familySession.profileId,
+      sessionToken: familySession.sessionToken,
+      ...input,
+    },
+  });
+
+  assertStatus(result, 201, "create catalog item");
+
+  return assertCatalogPayloadItem(result, "create catalog item");
+}
+
+async function updateCatalogItem(itemId, input, familySession) {
+  const result = await requestJson(`/api/catalog-items/${encodeURIComponent(itemId)}`, {
+    method: "PATCH",
+    body: {
+      profileId: familySession.profileId,
+      sessionToken: familySession.sessionToken,
+      ...input,
+    },
+  });
+
+  assertStatus(result, 200, "update catalog item");
+
+  return assertCatalogPayloadItem(result, "update catalog item");
+}
+
+async function deleteCatalogItem(itemId, familySession, adminSession) {
+  const result = await requestJson(`/api/catalog-items/${encodeURIComponent(itemId)}`, {
+    method: "DELETE",
+    body: {
+      profileId: familySession.profileId,
+      sessionToken: familySession.sessionToken,
+      adminToken: adminSession.adminToken,
+    },
+  });
+
+  assertStatus(result, 200, "delete catalog item");
+
+  return assertCatalogPayloadItem(result, "delete catalog item");
+}
+
 await loadLocalEnv();
 
 const familyPassword = requireSecret(familyPasswordName);
@@ -221,16 +309,108 @@ try {
 
   await cleanupContractRows(sql);
 
-  // Phase 2 adds mutation assertions here; Phase 1 proves the reusable API harness.
-  assert.equal(
-    await getCatalogItemById(sql, `${contractRunId}-missing`),
-    null,
-    "DB readback helper should return null for a missing contract row",
+  const createdTitle = `API Contract ${contractRunId}`;
+  const createdNote = `Created by ${contractRunId}`;
+  const createdItem = await createCatalogItem(
+    {
+      title: createdTitle,
+      kind: "book",
+      status: "available",
+      note: createdNote,
+    },
+    familySession,
   );
+
+  assert.equal(createdItem.title, createdTitle, "created item should keep title");
+  assert.equal(createdItem.kind, "book", "created item should keep kind");
+  assert.equal(createdItem.status, "available", "created item should keep status");
+  assert.equal(createdItem.note, createdNote, "created item should keep note");
+
+  await assertCatalogItemById(
+    sql,
+    createdItem.id,
+    {
+      title: createdTitle,
+      kind: "book",
+      status: "available",
+      note: createdNote,
+    },
+    "created item",
+  );
+
+  const updatedItem = await updateCatalogItem(
+    createdItem.id,
+    {
+      status: "borrowed",
+      borrowerName: `Borrower ${contractRunId}`,
+      note: `Updated by ${contractRunId}`,
+    },
+    familySession,
+  );
+
+  assert.equal(updatedItem.id, createdItem.id, "updated item should keep id");
+  assert.equal(updatedItem.title, createdTitle, "updated item should keep title");
+  assert.equal(updatedItem.kind, "book", "updated item should keep kind");
+  assert.equal(updatedItem.status, "borrowed", "updated item should persist status");
+  assert.equal(
+    updatedItem.borrowerName,
+    `Borrower ${contractRunId}`,
+    "updated item should persist borrower",
+  );
+  assert.equal(updatedItem.note, `Updated by ${contractRunId}`, "updated item should persist note");
+
+  await assertCatalogItemById(
+    sql,
+    createdItem.id,
+    {
+      title: createdTitle,
+      kind: "book",
+      status: "borrowed",
+      borrowerName: `Borrower ${contractRunId}`,
+      note: `Updated by ${contractRunId}`,
+    },
+    "updated item",
+  );
+
+  const clearedItem = await updateCatalogItem(
+    createdItem.id,
+    {
+      status: "available",
+      borrowerName: "",
+      note: "",
+    },
+    familySession,
+  );
+
+  assert.equal(clearedItem.id, createdItem.id, "cleared item should keep id");
+  assert.equal(clearedItem.status, "available", "cleared item should persist available status");
+  assert.equal(clearedItem.borrowerName, null, "cleared item should clear borrower");
+  assert.equal(clearedItem.note, null, "cleared item should clear note");
+
+  await assertCatalogItemById(
+    sql,
+    createdItem.id,
+    {
+      title: createdTitle,
+      kind: "book",
+      status: "available",
+      borrowerName: null,
+      note: null,
+    },
+    "cleared item",
+  );
+
+  const deletedItem = await deleteCatalogItem(createdItem.id, familySession, adminSession);
+
+  assert.equal(deletedItem.id, createdItem.id, "deleted item should return deleted id");
+  assert.equal(deletedItem.title, createdTitle, "deleted item should return deleted title");
+
+  await assertMissingCatalogItem(sql, createdItem.id, "deleted item");
+  await assertSeedRowsStillExist(sql);
 
   await cleanupContractRows(sql);
 } finally {
-  // Phase 2 wraps mutation-specific cleanup here once contract rows are created.
+  // The script keeps cleanup explicit and local to contract-owned rows.
 }
 
-console.log(`Catalog API contract harness passed against ${baseUrl}.`);
+console.log(`Catalog API contract check passed against ${baseUrl}.`);

@@ -294,29 +294,29 @@ No database schema migration is expected. The new script creates and deletes con
 
 #### Automated
 
-- [x] 1.1 `npm.cmd run build` passes with the new package script.
-- [x] 1.2 `npm.cmd run lint` passes with the new script present.
-- [x] 1.3 Running `npm.cmd run check:catalog-api` without a local server fails readably with the target base URL in the error.
+- [x] 1.1 `npm.cmd run build` passes with the new package script. — b70182e
+- [x] 1.2 `npm.cmd run lint` passes with the new script present. — b70182e
+- [x] 1.3 Running `npm.cmd run check:catalog-api` without a local server fails readably with the target base URL in the error. — b70182e
 
 #### Manual
 
-- [x] 1.4 The script has no hard-coded family/admin secrets.
-- [x] 1.5 The script treats returned session/admin tokens as opaque values.
-- [x] 1.6 The new command is clearly separate from `check:catalog`.
+- [x] 1.4 The script has no hard-coded family/admin secrets. — b70182e
+- [x] 1.5 The script treats returned session/admin tokens as opaque values. — b70182e
+- [x] 1.6 The new command is clearly separate from `check:catalog`. — b70182e
 
 ### Phase 2: Happy Path Mutation Readback
 
 #### Automated
 
-- [ ] 2.1 With the app running locally, `npm.cmd run check:catalog` passes before the API check.
-- [ ] 2.2 With the app running locally, `npm.cmd run check:catalog-api` creates, updates, deletes, and cleans contract-owned rows.
-- [ ] 2.3 `npm.cmd run check:catalog` still passes after `check:catalog-api`.
+- [x] 2.1 With the app running locally, `npm.cmd run check:catalog` passes before the API check.
+- [x] 2.2 With the app running locally, `npm.cmd run check:catalog-api` creates, updates, deletes, and cleans contract-owned rows.
+- [x] 2.3 `npm.cmd run check:catalog` still passes after `check:catalog-api`.
 
 #### Manual
 
-- [ ] 2.4 The API contract rows do not remain in the database after a successful run.
-- [ ] 2.5 Seed rows are not updated or deleted by the API contract.
-- [ ] 2.6 The check output identifies create, update, delete, or cleanup failures clearly enough to act on.
+- [x] 2.4 The API contract rows do not remain in the database after a successful run.
+- [x] 2.5 Seed rows are not updated or deleted by the API contract.
+- [x] 2.6 The check output identifies create, update, delete, or cleanup failures clearly enough to act on.
 
 ### Phase 3: Negative API Matrix
 
