@@ -363,35 +363,35 @@ No schema migration is expected because `catalog_items` already has stable ids a
 
 #### Automated
 
-- [x] 3.1 `npm.cmd run check:catalog` passes.
-- [x] 3.2 `npm.cmd run check:profiles` passes.
-- [x] 3.3 `npm.cmd run build` passes.
-- [x] 3.4 `npm.cmd run lint` passes.
+- [x] 3.1 `npm.cmd run check:catalog` passes. — 809b4bc
+- [x] 3.2 `npm.cmd run check:profiles` passes. — 809b4bc
+- [x] 3.3 `npm.cmd run build` passes. — 809b4bc
+- [x] 3.4 `npm.cmd run lint` passes. — 809b4bc
 
 #### Manual
 
-- [x] 3.5 Before admin unlock, `/items` does not show delete controls.
-- [x] 3.6 After admin unlock, `/items` shows delete controls for catalog items.
-- [x] 3.7 Clicking delete shows a standard confirmation dialog.
-- [x] 3.8 Cancelling confirmation does not delete the item.
-- [x] 3.9 Confirming deletion removes the item and returns to `/items`.
-- [x] 3.10 Guest profile never sees enabled delete controls.
-- [x] 3.11 Mobile-width layout keeps search, add, update, and delete controls readable.
+- [x] 3.5 Before admin unlock, `/items` does not show delete controls. — 809b4bc
+- [x] 3.6 After admin unlock, `/items` shows delete controls for catalog items. — 809b4bc
+- [x] 3.7 Clicking delete shows a standard confirmation dialog. — 809b4bc
+- [x] 3.8 Cancelling confirmation does not delete the item. — 809b4bc
+- [x] 3.9 Confirming deletion removes the item and returns to `/items`. — 809b4bc
+- [x] 3.10 Guest profile never sees enabled delete controls. — 809b4bc
+- [x] 3.11 Mobile-width layout keeps search, add, update, and delete controls readable. — 809b4bc
 
 ### Phase 4: Final Verification And Handoff
 
 #### Automated
 
-- [ ] 4.1 `npm.cmd run check:catalog` passes in the configured environment.
-- [ ] 4.2 `npm.cmd run check:profiles` passes.
-- [ ] 4.3 `npm.cmd run build` passes.
-- [ ] 4.4 `npm.cmd run lint` passes.
+- [x] 4.1 `npm.cmd run check:catalog` passes in the configured environment.
+- [x] 4.2 `npm.cmd run check:profiles` passes.
+- [x] 4.3 `npm.cmd run build` passes.
+- [x] 4.4 `npm.cmd run lint` passes.
 
 #### Manual
 
-- [ ] 4.5 Admin can unlock from `/admin` with the admin password.
-- [ ] 4.6 Admin-unlocked family session can delete a test item from `/items`.
-- [ ] 4.7 Family session without admin unlock cannot delete.
-- [ ] 4.8 Guest session cannot delete, even with a stale UI state.
-- [ ] 4.9 Existing add/update/search flows still work after delete UI is present.
-- [ ] 4.10 No full login, admin profile picker entry, bulk delete, soft delete, or audit log was added.
+- [x] 4.5 Admin can unlock from `/admin` with the admin password.
+- [x] 4.6 Admin-unlocked family session can delete a test item from `/items`.
+- [x] 4.7 Family session without admin unlock cannot delete.
+- [x] 4.8 Guest session cannot delete, even with a stale UI state.
+- [x] 4.9 Existing add/update/search flows still work after delete UI is present.
+- [x] 4.10 No full login, admin profile picker entry, bulk delete, soft delete, or audit log was added.
