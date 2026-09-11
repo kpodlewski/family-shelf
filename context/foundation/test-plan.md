@@ -129,7 +129,11 @@ the relevant rollout phase ships; before that, the sub-section reads
 
 ### 6.1 Adding a profile/login contract test
 
-TBD - see §3 Phase 1 for production password/profile session protection.
+- **Location**: `scripts/check-smoke.mjs` for production-facing smoke; future lower-level checks can live beside existing `scripts/check-profiles.mjs`.
+- **Pattern**: post JSON to `/api/profile-session` and `/api/admin-session`; assert valid configured credentials return `200` with non-secret profile/token payloads, and wrong credentials return `401`.
+- **Secret handling**: load `.env.local` only as a local convenience, never print raw passwords, and treat tokens as opaque strings.
+- **Run locally**: `npm.cmd run check:smoke`.
+- **Anti-patterns**: do not hard-code secrets, decode HMAC token internals, or treat static profile-shape checks as proof that production login works.
 
 ### 6.2 Adding a catalog integration test
 
@@ -145,7 +149,12 @@ TBD - see §3 Phase 4 for login-to-items smoke coverage.
 
 ### 6.5 Adding a production smoke check
 
-TBD - see §3 Phase 1 and Phase 4 for deployed env/login/catalog smoke patterns.
+- **Location**: `scripts/check-smoke.mjs`.
+- **Default target**: production at `https://family-shelf-gamma.vercel.app`; use `FAMILY_SHELF_SMOKE_BASE_URL` only when intentionally checking another deployed target.
+- **Pattern**: run credential smoke for family/admin session endpoints, then fetch `/items` and assert `HTTP 200`, the catalog shell text, and at least one stable seed title.
+- **Seed dependency**: run `npm.cmd run check:catalog` first when seed rows may be missing; the smoke script's seed-title failure should point back to that command.
+- **Run order**: `npm.cmd run check:catalog`, then `npm.cmd run check:smoke`.
+- **Anti-patterns**: do not use a DOM-only shell assertion as proof of catalog data, and do not remove or mutate production env vars to test negative cases.
 
 ### 6.6 Per-rollout-phase notes
 

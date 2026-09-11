@@ -305,27 +305,27 @@ No data migration. `check:smoke` depends on existing stable seed catalog rows; `
 
 #### Automated
 
-- [x] 3.1 `npm.cmd run check:smoke` is documented in `docs/deployment.md`.
-- [x] 3.2 `context/foundation/test-plan.md` §5 references the shipped smoke command.
+- [x] 3.1 `npm.cmd run check:smoke` is documented in `docs/deployment.md`. — 02c44c8
+- [x] 3.2 `context/foundation/test-plan.md` §5 references the shipped smoke command. — 02c44c8
 
 #### Manual
 
-- [x] 3.3 A reader can follow deployment docs to understand when to run `check:smoke`.
-- [x] 3.4 Docs state that Vercel env changes require redeploy.
+- [x] 3.3 A reader can follow deployment docs to understand when to run `check:smoke`. — 02c44c8
+- [x] 3.4 Docs state that Vercel env changes require redeploy. — 02c44c8
 
 ### Phase 4: Cookbook Update And Final Verification
 
 #### Automated
 
-- [ ] 4.1 `npm.cmd run check:profiles` passes.
-- [ ] 4.2 `npm.cmd run check:catalog` passes.
-- [ ] 4.3 `npm.cmd run check:smoke` passes against production.
-- [ ] 4.4 `npm.cmd run build` passes.
-- [ ] 4.5 `npm.cmd run lint` passes.
-- [ ] 4.6 `context/foundation/test-plan.md` §6.1 and §6.5 no longer contain TBD placeholders for this phase.
+- [x] 4.1 `npm.cmd run check:profiles` passes.
+- [x] 4.2 `npm.cmd run check:catalog` passes.
+- [x] 4.3 `npm.cmd run check:smoke` passes against production.
+- [x] 4.4 `npm.cmd run build` passes.
+- [x] 4.5 `npm.cmd run lint` passes.
+- [x] 4.6 `context/foundation/test-plan.md` §6.1 and §6.5 no longer contain TBD placeholders for this phase.
 
 #### Manual
 
-- [ ] 4.7 Smoke failures are readable enough to distinguish wrong credentials, missing seed data, and unreachable production URL.
-- [ ] 4.8 No secret values appear in command output, docs, or committed files.
-- [ ] 4.9 Phase 1 status can be marked complete after the shipped checks pass.
+- [x] 4.7 Smoke failures are readable enough to distinguish wrong credentials, missing seed data, and unreachable production URL.
+- [x] 4.8 No secret values appear in command output, docs, or committed files.
+- [x] 4.9 Phase 1 status can be marked complete after the shipped checks pass.
