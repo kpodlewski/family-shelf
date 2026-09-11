@@ -338,15 +338,15 @@ No database schema migration is expected. The new script creates and deletes con
 
 #### Automated
 
-- [x] 4.1 `npm.cmd run check:catalog` passes.
-- [x] 4.2 `npm.cmd run check:catalog-api` passes against the local app server.
-- [x] 4.3 `npm.cmd run check:profiles` passes.
-- [x] 4.4 `npm.cmd run build` passes.
-- [x] 4.5 `npm.cmd run lint` passes.
-- [x] 4.6 `context/foundation/test-plan.md` §6.2 no longer contains the Phase 2 TBD placeholder.
+- [x] 4.1 `npm.cmd run check:catalog` passes. — 1f95964
+- [x] 4.2 `npm.cmd run check:catalog-api` passes against the local app server. — 1f95964
+- [x] 4.3 `npm.cmd run check:profiles` passes. — 1f95964
+- [x] 4.4 `npm.cmd run build` passes. — 1f95964
+- [x] 4.5 `npm.cmd run lint` passes. — 1f95964
+- [x] 4.6 `context/foundation/test-plan.md` §6.2 no longer contains the Phase 2 TBD placeholder. — 1f95964
 
 #### Manual
 
-- [x] 4.7 A future agent can tell from docs that `check:catalog-api` requires a local running app.
-- [x] 4.8 The cookbook explains how to add future catalog mutation contracts without mutating seed/user rows.
-- [x] 4.9 Phase 2 status can be marked complete after the shipped checks pass.
+- [x] 4.7 A future agent can tell from docs that `check:catalog-api` requires a local running app. — 1f95964
+- [x] 4.8 The cookbook explains how to add future catalog mutation contracts without mutating seed/user rows. — 1f95964
+- [x] 4.9 Phase 2 status can be marked complete after the shipped checks pass. — 1f95964

@@ -66,7 +66,7 @@ orchestrator updates Status as artifacts appear on disk.
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|---|---|---|---|---|---|
 | 1 | Critical access and catalog smoke | Prove a valid family/admin path can enter and see the catalog in the cheapest deployed-like way. | #1, #2 | contract + smoke | complete | `context/changes/testing-critical-access-catalog-smoke/` |
-| 2 | Catalog mutation contracts | Lock list/search/add/update/delete durable behavior before expanding UI tests. | #3, #5, #6 | contract + integration | implementing | `context/changes/testing-catalog-mutation-contracts/` |
+| 2 | Catalog mutation contracts | Lock list/search/add/update/delete durable behavior before expanding UI tests. | #3, #5, #6 | contract + integration | complete | `context/changes/testing-catalog-mutation-contracts/` |
 | 3 | Authorization regression boundary | Prove guest/family/admin capability rules are enforced server-side, not just hidden in UI. | #4, #6 | contract + integration | not started | - |
 | 4 | Minimal UI and gate wiring | Add the smallest UI/e2e layer and required gates that protect login/catalog flows without pixel-perfect coverage. | #1, #2, #3, #4 | e2e + gates | not started | - |
 
