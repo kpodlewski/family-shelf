@@ -8,3 +8,5 @@ AGENTS.md
 .env*
 .agents/
 skills-lock.json
+test-results/
+playwright-report/
