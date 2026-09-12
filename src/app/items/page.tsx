@@ -3,7 +3,7 @@ import { listCatalogItems, searchCatalogItems } from '@/lib/catalog'
 import { formatItemKind, formatItemStatus } from '@/lib/formatItemStatus'
 import { CatalogSearchForm } from '@/components/CatalogSearchForm'
 import { ProfileAccessNotice } from '@/components/ProfileAccessNotice'
-import { AddCatalogItemForm } from '@/components/AddCatalogItemForm'
+import { AddCatalogItemLink } from '@/components/AddCatalogItemLink'
 import { UpdateCatalogItemForm } from '@/components/UpdateCatalogItemForm'
 import { DeleteCatalogItemForm } from '@/components/DeleteCatalogItemForm'
 
@@ -32,15 +32,17 @@ export default async function ItemsPage({ searchParams }: ItemsPageProps) {
           <h1 className="text-3xl font-semibold">Item catalog</h1>
           <p className="text-slate-600">Search, add, and update items for the family inventory.</p>
         </div>
-        <Link
-          href="/admin"
-          className="w-fit rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
-        >
-          Admin view
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          <AddCatalogItemLink />
+          <Link
+            href="/admin"
+            className="w-fit rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+          >
+            Admin view
+          </Link>
+        </div>
       </header>
       <ProfileAccessNotice />
-      <AddCatalogItemForm />
       <CatalogSearchForm query={query} />
 
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">

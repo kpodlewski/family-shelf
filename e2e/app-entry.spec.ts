@@ -27,6 +27,10 @@ test("family profile can open and search the item catalog", async ({ page }) => 
     "/",
   );
   await expect(page.getByRole("heading", { name: "Item catalog" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Add item" })).toHaveAttribute(
+    "href",
+    "/items/new",
+  );
   await expect(page.getByRole("link", { name: "Admin view" })).toBeVisible();
   await expect(page.getByText("Dune", { exact: true })).toBeVisible();
 
@@ -56,6 +60,7 @@ test("guest profile can browse catalog without write controls", async ({ page })
   await expect(page.getByLabel("Search catalog")).toBeVisible();
   await expect(page.getByText("Dune", { exact: true })).toBeVisible();
 
+  await expect(page.getByRole("link", { name: "Add item" })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Add item" })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Save state" })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Delete item" })).toHaveCount(0);

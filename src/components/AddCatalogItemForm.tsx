@@ -35,7 +35,16 @@ export function AddCatalogItemForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!session?.profile.capabilities.includes("catalog:write")) {
-    return null;
+    return (
+      <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="grid gap-1">
+          <h2 className="text-lg font-semibold text-slate-900">Add item unavailable</h2>
+          <p className="text-sm text-slate-600">
+            Switch to a family profile to create catalog entries.
+          </p>
+        </div>
+      </section>
+    );
   }
 
   async function submitItem(event: FormEvent<HTMLFormElement>) {
