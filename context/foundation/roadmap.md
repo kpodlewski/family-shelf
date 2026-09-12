@@ -3,7 +3,7 @@ project: Family Shelf
 version: 1
 status: proposed
 created: 2026-07-24
-updated: 2026-09-11
+updated: 2026-09-12
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -27,6 +27,12 @@ The north star - the smallest user-visible flow that proves the product is usefu
 | S-03 | slice | Family member can add a new item that appears in the catalog. | add-catalog-item | F-01, S-01 | FR-004, FR-005, US-01 | impl_reviewed |
 | S-04 | slice | Family member can change borrowing status and note for an item. | update-borrowing-state | F-01, S-02, S-03 | FR-006, FR-007, FR-008, US-02 | impl_reviewed |
 | S-05 | slice | Admin can unlock protected destructive actions and delete an item. | admin-delete-item | F-01, S-01, S-03 | FR-003, FR-009, US-03 | impl_reviewed |
+| F-02 | foundation | Critical access and catalog smoke protects production login and item visibility. | testing-critical-access-catalog-smoke | F-01, S-01, S-02, S-05 | FR-001, FR-003, FR-005, FR-006, US-01 | implemented |
+| F-03 | foundation | Catalog mutation contracts protect durable add/update/delete/readback behavior. | testing-catalog-mutation-contracts | F-01, S-02, S-03, S-04, S-05 | FR-004, FR-005, FR-006, FR-007, FR-008, FR-009, US-01, US-02, US-03 | implemented |
+| F-04 | foundation | Authorization regression boundaries protect guest/family/admin server-side access. | testing-authorization-regression-boundary | F-02, F-03 | FR-003, FR-009, US-03 | implemented |
+| F-05 | foundation | Minimal UI e2e wiring protects login, catalog search, guest read-only UI, and admin delete-control visibility. | testing-minimal-ui-gate-wiring | F-02, F-03, F-04 | FR-001, FR-003, FR-005, FR-006, FR-009, US-01, US-03 | archived |
+| M-01 | maintenance | Bootstrap verification notes preserve setup evidence and local server logs. | bootstrap-verification | none | n/a | active |
+| M-02 | maintenance | GitHub issue migration notes preserve external task handoff state. | github-issues-migration | none | n/a | active |
 
 ## Baseline
 
@@ -62,6 +68,102 @@ The north star - the smallest user-visible flow that proves the product is usefu
 **Status**: impl_reviewed
 
 **Unlocks**: S-02, S-03, S-04, S-05
+
+### F-02: Critical access and catalog smoke protects production login and item visibility.
+
+**Outcome**: Production-facing smoke checks prove configured family/admin credentials unlock the intended sessions and `/items` renders readable seed catalog data.
+
+**Change ID**: testing-critical-access-catalog-smoke
+
+**PRD refs**: FR-001, FR-003, FR-005, FR-006, US-01
+
+**Prerequisites**: F-01, S-01, S-02, S-05
+
+**Parallel with**: none
+
+**Blockers**: none
+
+**Unknowns**:
+
+- Production smoke depends on current deployed environment variables and stable seed rows. Block: no.
+
+**Risk**: Local success can hide production env drift. Keep smoke checks env-backed and non-destructive.
+
+**Status**: implemented
+
+**Unlocks**: F-03, F-04, F-05
+
+### F-03: Catalog mutation contracts protect durable add/update/delete/readback behavior.
+
+**Outcome**: Contract and API checks prove catalog search, add, update, delete, and readback behavior against durable contract-owned rows.
+
+**Change ID**: testing-catalog-mutation-contracts
+
+**PRD refs**: FR-004, FR-005, FR-006, FR-007, FR-008, FR-009, US-01, US-02, US-03
+
+**Prerequisites**: F-01, S-02, S-03, S-04, S-05
+
+**Parallel with**: none
+
+**Blockers**: none
+
+**Unknowns**:
+
+- Contract checks require database connectivity and cleanup guarantees for contract-owned rows. Block: no.
+
+**Risk**: Tests that mutate seed or user rows would make the catalog untrustworthy. Keep mutation checks scoped to contract-owned rows.
+
+**Status**: implemented
+
+**Unlocks**: F-04, F-05
+
+### F-04: Authorization regression boundaries protect guest/family/admin server-side access.
+
+**Outcome**: Integration checks prove guest evidence is rejected for writes/deletes and destructive work requires both write-capable family evidence and admin unlock.
+
+**Change ID**: testing-authorization-regression-boundary
+
+**PRD refs**: FR-003, FR-009, US-03
+
+**Prerequisites**: F-02, F-03
+
+**Parallel with**: none
+
+**Blockers**: none
+
+**Unknowns**:
+
+- UI affordance checks are useful but not a security boundary. Block: no.
+
+**Risk**: Hidden buttons alone do not prove authorization. Keep server-side authorization checks in contract/API scripts.
+
+**Status**: implemented
+
+**Unlocks**: F-05
+
+### F-05: Minimal UI e2e wiring protects login, catalog search, guest read-only UI, and admin delete-control visibility.
+
+**Outcome**: Minimal Playwright coverage proves hydrated profile entry, catalog seed visibility/search, guest read-only affordances, and admin delete-control visibility.
+
+**Change ID**: testing-minimal-ui-gate-wiring
+
+**PRD refs**: FR-001, FR-003, FR-005, FR-006, FR-009, US-01, US-03
+
+**Prerequisites**: F-02, F-03, F-04
+
+**Parallel with**: none
+
+**Blockers**: none
+
+**Unknowns**:
+
+- E2e runs require a local app server, browser install, env-backed passwords, and seed rows. Block: no.
+
+**Risk**: Browser tests can sprawl into pixel-perfect or destructive flows. Keep this suite minimal and non-destructive.
+
+**Status**: archived
+
+**Unlocks**: none
 
 ## Slices
 
@@ -175,16 +277,68 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Status**: impl_reviewed
 
+## Maintenance
+
+### M-01: Bootstrap verification notes preserve setup evidence and local server logs.
+
+**Outcome**: Bootstrap verification artifacts capture setup checks and local dev-server evidence for future troubleshooting.
+
+**Change ID**: bootstrap-verification
+
+**PRD refs**: n/a
+
+**Prerequisites**: none
+
+**Parallel with**: none
+
+**Blockers**: none
+
+**Unknowns**:
+
+- This folder predates the current change.md convention. Block: no.
+
+**Risk**: Treat this as project evidence, not a product slice.
+
+**Status**: active
+
+### M-02: GitHub issue migration notes preserve external task handoff state.
+
+**Outcome**: GitHub issue migration notes capture the external task handoff state for follow-up coordination.
+
+**Change ID**: github-issues-migration
+
+**PRD refs**: n/a
+
+**Prerequisites**: none
+
+**Parallel with**: none
+
+**Blockers**: none
+
+**Unknowns**:
+
+- This folder predates the current change.md convention. Block: no.
+
+**Risk**: Treat this as coordination evidence, not a product slice.
+
+**Status**: active
+
 ## Backlog Handoff
 
 | Roadmap ID | Change ID | Suggested handoff |
 |---|---|---|
 | F-01 | catalog-state-contract | completed |
+| F-02 | testing-critical-access-catalog-smoke | completed |
+| F-03 | testing-catalog-mutation-contracts | completed |
+| F-04 | testing-authorization-regression-boundary | completed |
+| F-05 | testing-minimal-ui-gate-wiring | archived |
 | S-01 | shared-entry-profile-selection | completed |
 | S-02 | search-current-item-state | completed |
 | S-03 | add-catalog-item | completed |
 | S-04 | update-borrowing-state | completed |
 | S-05 | admin-delete-item | completed |
+| M-01 | bootstrap-verification | active |
+| M-02 | github-issues-migration | active |
 
 ## Open Roadmap Questions
 
@@ -208,3 +362,4 @@ No blocking roadmap questions. Implementation details such as the specific persi
 - S-03 `add-catalog-item`
 - S-04 `update-borrowing-state`
 - S-05 `admin-delete-item`
+- F-05 `testing-minimal-ui-gate-wiring`
