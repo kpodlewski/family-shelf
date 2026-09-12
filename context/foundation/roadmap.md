@@ -21,11 +21,11 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 | ID | Type | Outcome | Change ID | Prerequisites | PRD refs | Status |
 |---|---|---|---|---|---|---|
-| F-01 | foundation | Minimal shared catalog state exists so vertical slices can read and update the same items. | catalog-state-contract | none | FR-004, FR-005, FR-006, FR-007, FR-008, US-01, US-02 | impl_reviewed |
-| S-01 | slice | Family member can open the shared app and choose a simple profile. | shared-entry-profile-selection | none | FR-001, FR-002, US-01, US-02 | impl_reviewed |
-| S-02 | slice | Family member can search for an item and see its current status and note. | search-current-item-state | F-01, S-01 | FR-005, FR-006, FR-008, US-01 | impl_reviewed |
-| S-03 | slice | Family member can add a new item that appears in the catalog. | add-catalog-item | F-01, S-01 | FR-004, FR-005, US-01 | impl_reviewed |
-| S-04 | slice | Family member can change borrowing status and note for an item. | update-borrowing-state | F-01, S-02, S-03 | FR-006, FR-007, FR-008, US-02 | impl_reviewed |
+| F-01 | foundation | Minimal shared catalog state exists so vertical slices can read and update the same items. | catalog-state-contract | none | FR-004, FR-005, FR-006, FR-007, FR-008, US-01, US-02 | done |
+| S-01 | slice | Family member can open the shared app and choose a simple profile. | shared-entry-profile-selection | none | FR-001, FR-002, US-01, US-02 | done |
+| S-02 | slice | Family member can search for an item and see its current status and note. | search-current-item-state | F-01, S-01 | FR-005, FR-006, FR-008, US-01 | done |
+| S-03 | slice | Family member can add a new item that appears in the catalog. | add-catalog-item | F-01, S-01 | FR-004, FR-005, US-01 | done |
+| S-04 | slice | Family member can change borrowing status and note for an item. | update-borrowing-state | F-01, S-02, S-03 | FR-006, FR-007, FR-008, US-02 | done |
 | S-05 | slice | Admin can unlock protected destructive actions and delete an item. | admin-delete-item | F-01, S-01, S-03 | FR-003, FR-009, US-03 | impl_reviewed |
 | F-02 | foundation | Critical access and catalog smoke protects production login and item visibility. | testing-critical-access-catalog-smoke | F-01, S-01, S-02, S-05 | FR-001, FR-003, FR-005, FR-006, US-01 | implemented |
 | F-03 | foundation | Catalog mutation contracts protect durable add/update/delete/readback behavior. | testing-catalog-mutation-contracts | F-01, S-02, S-03, S-04, S-05 | FR-004, FR-005, FR-006, FR-007, FR-008, FR-009, US-01, US-02, US-03 | implemented |
@@ -65,7 +65,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: If this grows into a full data layer up front, it will slow the MVP. Keep it to the minimum state contract required by the first visible flows.
 
-**Status**: impl_reviewed
+**Status**: done
 
 **Unlocks**: S-02, S-03, S-04, S-05
 
@@ -187,7 +187,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: Overbuilding profile privacy would violate the PRD's explicit non-goal. Keep profiles lightweight and shared-family oriented.
 
-**Status**: impl_reviewed
+**Status**: done
 
 ### S-02: Family member can search for an item and see its current status and note.
 
@@ -209,7 +209,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: This slice can absorb too much UI polish. Ship the smallest status-and-note lookup that proves the family can find an item.
 
-**Status**: impl_reviewed
+**Status**: done
 
 ### S-03: Family member can add a new item that appears in the catalog.
 
@@ -231,7 +231,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: Adding too many fields recreates the removed "edit item details" scope. Keep the item shape narrow.
 
-**Status**: impl_reviewed
+**Status**: done
 
 ### S-04: Family member can change borrowing status and note for an item.
 
@@ -253,7 +253,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: Status history is explicitly out of scope. Store only the current visible state unless the PRD changes.
 
-**Status**: impl_reviewed
+**Status**: done
 
 ### S-05: Admin can unlock protected destructive actions and delete an item.
 
@@ -356,10 +356,10 @@ No blocking roadmap questions. Implementation details such as the specific persi
 
 ## Done
 
-- F-01 `catalog-state-contract`
-- S-01 `shared-entry-profile-selection`
-- S-02 `search-current-item-state`
-- S-03 `add-catalog-item`
-- S-04 `update-borrowing-state`
+- **F-01: Minimal shared catalog state exists so vertical slices can read and update the same items.** - Archived 2026-09-12 -> `context/archive/2026-07-24-catalog-state-contract/`. Lesson: -.
+- **S-01: Family member can open the shared app and choose a simple profile.** - Archived 2026-09-12 -> `context/archive/2026-08-21-shared-entry-profile-selection/`. Lesson: -.
+- **S-02: Family member can search for an item and see its current status and note.** - Archived 2026-09-12 -> `context/archive/2026-08-21-search-current-item-state/`. Lesson: -.
+- **S-03: Family member can add a new item that appears in the catalog.** - Archived 2026-09-12 -> `context/archive/2026-08-21-add-catalog-item/`. Lesson: -.
+- **S-04: Family member can change borrowing status and note for an item.** - Archived 2026-09-12 -> `context/archive/2026-08-21-update-borrowing-state/`. Lesson: -.
 - S-05 `admin-delete-item`
 - F-05 `testing-minimal-ui-gate-wiring`

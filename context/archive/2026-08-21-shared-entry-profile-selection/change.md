@@ -1,10 +1,10 @@
 ---
-change_id: update-borrowing-state
-title: Update borrowing state
-status: impl_reviewed
+change_id: shared-entry-profile-selection
+title: Shared entry profile selection
+status: archived
 created: 2026-08-21
-updated: 2026-08-21
-archived_at: null
+updated: 2026-09-12
+archived_at: 2026-09-12T09:03:30Z
 ---
 
 ## Notes
