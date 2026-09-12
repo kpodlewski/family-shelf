@@ -1,7 +1,7 @@
 ---
 change_id: testing-authorization-regression-boundary
 title: Authorization regression boundary
-status: implemented
+status: impl_reviewed
 created: 2026-09-12
 updated: 2026-09-12
 archived_at: null
