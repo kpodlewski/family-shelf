@@ -12,7 +12,7 @@ test.describe("critical catalog e2e seed", () => {
     // Set up a real family session through the app entry gate.
     await page.goto("/");
     await expect(page.getByRole("heading", { name: "Choose your profile" })).toBeVisible();
-    await chooseFamilyProfile(page, "Family profile 1");
+    await chooseFamilyProfile(page, "Kasia");
     await page.getByLabel("Family password").fill(familyPassword);
     await enterSelectedProfile(page);
 

@@ -13,11 +13,11 @@ test("family profile can open and search the item catalog", async ({ page }) => 
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Choose your profile" })).toBeVisible();
 
-  await chooseFamilyProfile(page, "Family profile 1");
+  await chooseFamilyProfile(page, "Kasia");
   await page.getByLabel("Family password").fill(familyPassword);
   await enterSelectedProfile(page);
 
-  await expect(page.getByText("Family profile 1")).toBeVisible();
+  await expect(page.getByText("Kasia")).toBeVisible();
   await expect(page.getByText("Catalog updates allowed")).toBeVisible();
 
   await page.getByRole("link", { name: "Open catalog" }).click();
@@ -63,7 +63,7 @@ test("admin unlock reveals delete controls for a family session", async ({ page 
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Choose your profile" })).toBeVisible();
 
-  await chooseFamilyProfile(page, "Family profile 1");
+  await chooseFamilyProfile(page, "Kasia");
   await page.getByLabel("Family password").fill(familyPassword);
   await enterSelectedProfile(page);
 

@@ -37,28 +37,28 @@ const guestCapabilities = [
 const appProfiles: readonly AppProfile[] = [
   {
     id: "family-1",
-    label: "Family profile 1",
+    label: "Kasia",
     role: "family",
     requiresFamilyPassword: true,
     capabilities: familyCapabilities,
   },
   {
     id: "family-2",
-    label: "Family profile 2",
+    label: "Krzysztof",
     role: "family",
     requiresFamilyPassword: true,
     capabilities: familyCapabilities,
   },
   {
     id: "family-3",
-    label: "Family profile 3",
+    label: "Tosia",
     role: "family",
     requiresFamilyPassword: true,
     capabilities: familyCapabilities,
   },
   {
     id: "family-4",
-    label: "Family profile 4",
+    label: "Hela",
     role: "family",
     requiresFamilyPassword: true,
     capabilities: familyCapabilities,
