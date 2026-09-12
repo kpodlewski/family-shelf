@@ -68,7 +68,7 @@ orchestrator updates Status as artifacts appear on disk.
 | 1 | Critical access and catalog smoke | Prove a valid family/admin path can enter and see the catalog in the cheapest deployed-like way. | #1, #2 | contract + smoke | complete | `context/changes/testing-critical-access-catalog-smoke/` |
 | 2 | Catalog mutation contracts | Lock list/search/add/update/delete durable behavior before expanding UI tests. | #3, #5, #6 | contract + integration | complete | `context/changes/testing-catalog-mutation-contracts/` |
 | 3 | Authorization regression boundary | Prove guest/family/admin capability rules are enforced server-side, not just hidden in UI. | #4, #6 | contract + integration | complete | `context/changes/testing-authorization-regression-boundary/` |
-| 4 | Minimal UI and gate wiring | Add the smallest UI/e2e layer and required gates that protect login/catalog flows without pixel-perfect coverage. | #1, #2, #3, #4 | e2e + gates | implementing | `context/changes/testing-minimal-ui-gate-wiring/` |
+| 4 | Minimal UI and gate wiring | Add the smallest UI/e2e layer and required gates that protect login/catalog flows without pixel-perfect coverage. | #1, #2, #3, #4 | e2e + gates | complete | `context/changes/testing-minimal-ui-gate-wiring/` |
 
 **Status vocabulary** (fixed - parser literals):
 
@@ -157,7 +157,13 @@ the relevant rollout phase ships; before that, the sub-section reads
 
 ### 6.4 Adding an e2e test for a critical user flow
 
-TBD - see §3 Phase 4 for login-to-items smoke coverage.
+- **Location**: put browser coverage in `e2e/` and run it with `npm.cmd run check:e2e`.
+- **Targeting**: Playwright defaults to `http://localhost:3000`; set `FAMILY_SHELF_E2E_BASE_URL` only for an intentional local or disposable preview target.
+- **Prerequisites**: run `npm.cmd run check:catalog` first when seed rows may be missing, start the app locally, and provide `FAMILY_SHELF_FAMILY_PASSWORD` plus `FAMILY_SHELF_ADMIN_PASSWORD` through the shell or `.env.local`.
+- **Pattern**: exercise visible user flows through the real UI: select a profile in `ProfileGate`, enter the app, open `/items`, assert `Item catalog` plus stable seed data, submit the search form, and assert the filtered catalog state.
+- **Guest/admin coverage**: assert guest can browse/search but does not see add/update/delete controls; assert a family session plus admin unlock makes delete controls visible without clicking delete.
+- **Scope boundary**: e2e covers hydration, localStorage-backed profile/admin UI state, and critical catalog affordances only. Keep durable mutation correctness in `check:catalog` and `check:catalog-api`, and keep production env coverage in `check:smoke`.
+- **Anti-patterns**: do not use pixel-perfect snapshots for every screen, do not create/update/delete production or shared rows from browser tests, do not bypass profile selection by minting internal tokens, and do not treat hidden controls as the server-side authorization proof.
 
 ### 6.5 Adding a production smoke check
 

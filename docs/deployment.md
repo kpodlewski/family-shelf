@@ -30,6 +30,13 @@ a running local app server. It targets `http://localhost:3000` by default; set
 or disposable preview target. Run `check:catalog` first so schema and seed rows are
 ready, then start the app locally before running `check:catalog-api`.
 
+`npm.cmd run check:e2e` verifies the minimal browser flow against a running local
+app server. It targets `http://localhost:3000` by default; set
+`FAMILY_SHELF_E2E_BASE_URL` only when intentionally checking another local or
+disposable preview target. The browser check requires
+`FAMILY_SHELF_FAMILY_PASSWORD` and `FAMILY_SHELF_ADMIN_PASSWORD` from the shell or
+`.env.local`, and it expects stable seed rows from `check:catalog`.
+
 ## Verification
 
 Before shipping a preview or production change:
@@ -40,16 +47,18 @@ Before shipping a preview or production change:
 4. Confirm `FAMILY_SHELF_ADMIN_PASSWORD` is configured in the target environment.
 5. Run `npm.cmd run check:catalog`.
 6. Start the app locally and run `npm.cmd run check:catalog-api`.
-7. Run `npm.cmd run check:profiles`.
-8. Run `npm.cmd run build`.
-9. Run `npm.cmd run lint`.
-10. Run `npm.cmd run check:smoke`.
-11. Manually verify admin unlock and item delete in the target environment using a disposable item.
+7. With the same local app server running, run `npm.cmd run check:e2e`.
+8. Run `npm.cmd run check:profiles`.
+9. Run `npm.cmd run build`.
+10. Run `npm.cmd run lint`.
+11. Run `npm.cmd run check:smoke`.
+12. Manually verify admin unlock and item delete in the target environment using a disposable item.
 
 `check:smoke` targets production by default. It expects production Vercel
 environment variables to be configured and redeployed, and it expects stable
 catalog seed rows to exist; run `check:catalog` first when seed rows may be
-missing.
+missing. The browser e2e gate is local or intentional-preview UI coverage; it
+does not replace production `check:smoke`.
 
 ## Rollback Notes
 

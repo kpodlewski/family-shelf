@@ -306,30 +306,30 @@ Installing Playwright may add a lockfile change and may require browser installa
 
 #### Automated
 
-- [x] 3.1 `npm.cmd run check:e2e` proves guest can view `/items` and search UI.
-- [x] 3.2 `npm.cmd run check:e2e` proves guest does not see add/update/delete controls.
-- [x] 3.3 `npm.cmd run check:e2e` proves admin unlock makes delete controls visible for a family session.
+- [x] 3.1 `npm.cmd run check:e2e` proves guest can view `/items` and search UI. (commit `7931fec`)
+- [x] 3.2 `npm.cmd run check:e2e` proves guest does not see add/update/delete controls. (commit `7931fec`)
+- [x] 3.3 `npm.cmd run check:e2e` proves admin unlock makes delete controls visible for a family session. (commit `7931fec`)
 
 #### Manual
 
-- [x] 3.4 The guest test is described as visible affordance coverage, not security proof.
-- [x] 3.5 The admin test does not perform destructive delete.
-- [x] 3.6 Tests are independent and do not share localStorage state unintentionally.
+- [x] 3.4 The guest test is described as visible affordance coverage, not security proof. (commit `7931fec`)
+- [x] 3.5 The admin test does not perform destructive delete. (commit `7931fec`)
+- [x] 3.6 Tests are independent and do not share localStorage state unintentionally. (commit `7931fec`)
 
 ### Phase 4: Gate Docs And Cookbook
 
 #### Automated
 
-- [ ] 4.1 `npm.cmd run lint` passes.
-- [ ] 4.2 `npm.cmd run build` passes.
-- [ ] 4.3 `npm.cmd run check:profiles` passes.
-- [ ] 4.4 `npm.cmd run check:catalog` passes.
-- [ ] 4.5 With the local app server running, `npm.cmd run check:catalog-api` passes.
-- [ ] 4.6 With the local app server running, `npm.cmd run check:e2e` passes.
-- [ ] 4.7 `context/foundation/test-plan.md` section 6.4 no longer contains the Phase 4 TBD placeholder.
+- [x] 4.1 `npm.cmd run lint` passes.
+- [x] 4.2 `npm.cmd run build` passes.
+- [x] 4.3 `npm.cmd run check:profiles` passes.
+- [x] 4.4 `npm.cmd run check:catalog` passes.
+- [x] 4.5 With the local app server running, `npm.cmd run check:catalog-api` passes.
+- [x] 4.6 With the local app server running, `npm.cmd run check:e2e` passes.
+- [x] 4.7 `context/foundation/test-plan.md` section 6.4 no longer contains the Phase 4 TBD placeholder.
 
 #### Manual
 
-- [ ] 4.8 Deployment docs explain e2e prerequisites and target override.
-- [ ] 4.9 The cookbook makes clear that e2e is minimal UI coverage, not a pixel-perfect suite.
-- [ ] 4.10 The shipped e2e gate does not replace production `check:smoke`.
+- [x] 4.8 Deployment docs explain e2e prerequisites and target override.
+- [x] 4.9 The cookbook makes clear that e2e is minimal UI coverage, not a pixel-perfect suite.
+- [x] 4.10 The shipped e2e gate does not replace production `check:smoke`.
