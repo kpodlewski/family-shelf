@@ -320,16 +320,16 @@ Installing Playwright may add a lockfile change and may require browser installa
 
 #### Automated
 
-- [x] 4.1 `npm.cmd run lint` passes.
-- [x] 4.2 `npm.cmd run build` passes.
-- [x] 4.3 `npm.cmd run check:profiles` passes.
-- [x] 4.4 `npm.cmd run check:catalog` passes.
-- [x] 4.5 With the local app server running, `npm.cmd run check:catalog-api` passes.
-- [x] 4.6 With the local app server running, `npm.cmd run check:e2e` passes.
-- [x] 4.7 `context/foundation/test-plan.md` section 6.4 no longer contains the Phase 4 TBD placeholder.
+- [x] 4.1 `npm.cmd run lint` passes. (commit `f59fed0`)
+- [x] 4.2 `npm.cmd run build` passes. (commit `f59fed0`)
+- [x] 4.3 `npm.cmd run check:profiles` passes. (commit `f59fed0`)
+- [x] 4.4 `npm.cmd run check:catalog` passes. (commit `f59fed0`)
+- [x] 4.5 With the local app server running, `npm.cmd run check:catalog-api` passes. (commit `f59fed0`)
+- [x] 4.6 With the local app server running, `npm.cmd run check:e2e` passes. (commit `f59fed0`)
+- [x] 4.7 `context/foundation/test-plan.md` section 6.4 no longer contains the Phase 4 TBD placeholder. (commit `f59fed0`)
 
 #### Manual
 
-- [x] 4.8 Deployment docs explain e2e prerequisites and target override.
-- [x] 4.9 The cookbook makes clear that e2e is minimal UI coverage, not a pixel-perfect suite.
-- [x] 4.10 The shipped e2e gate does not replace production `check:smoke`.
+- [x] 4.8 Deployment docs explain e2e prerequisites and target override. (commit `f59fed0`)
+- [x] 4.9 The cookbook makes clear that e2e is minimal UI coverage, not a pixel-perfect suite. (commit `f59fed0`)
+- [x] 4.10 The shipped e2e gate does not replace production `check:smoke`. (commit `f59fed0`)

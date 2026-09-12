@@ -1,7 +1,7 @@
 ---
 change_id: testing-minimal-ui-gate-wiring
 title: Minimal UI and gate wiring
-status: implementing
+status: implemented
 created: 2026-09-12
 updated: 2026-09-12
 archived_at: null
