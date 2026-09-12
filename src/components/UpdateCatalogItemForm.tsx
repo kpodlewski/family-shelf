@@ -29,6 +29,7 @@ type UpdateCatalogItemFormProps = {
 export function UpdateCatalogItemForm({ item }: UpdateCatalogItemFormProps) {
   const router = useRouter();
   const session = useActiveProfileSession();
+  const [title, setTitle] = useState(item.title);
   const [status, setStatus] = useState<CatalogItemStatus>(item.status);
   const [borrowerName, setBorrowerName] = useState(item.borrowerName ?? "");
   const [note, setNote] = useState(item.note ?? "");
@@ -55,6 +56,7 @@ export function UpdateCatalogItemForm({ item }: UpdateCatalogItemFormProps) {
         body: JSON.stringify({
           profileId: session?.profile.id,
           sessionToken: session?.sessionToken,
+          title,
           status,
           borrowerName,
           note,
@@ -68,6 +70,7 @@ export function UpdateCatalogItemForm({ item }: UpdateCatalogItemFormProps) {
         return;
       }
 
+      setTitle(payload.item.title);
       setStatus(payload.item.status);
       setBorrowerName(payload.item.borrowerName ?? "");
       setNote(payload.item.note ?? "");
@@ -85,6 +88,17 @@ export function UpdateCatalogItemForm({ item }: UpdateCatalogItemFormProps) {
       onSubmit={submitUpdate}
       className="mt-3 grid gap-3 border-t border-slate-100 pt-3"
     >
+      <label className="grid gap-1.5">
+        <span className="text-xs font-medium text-slate-600">Title</span>
+        <input
+          type="text"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+          className="rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none focus:border-slate-900"
+          maxLength={160}
+        />
+      </label>
+
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="grid gap-1.5">
           <span className="text-xs font-medium text-slate-600">Status</span>

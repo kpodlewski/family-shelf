@@ -23,6 +23,7 @@ export type CreateCatalogItemInput = {
 
 export type UpdateCatalogItemInput = {
   id: string;
+  title: string;
   status: CatalogItemStatus;
   note?: string | null;
   borrowerName?: string | null;

@@ -411,9 +411,11 @@ try {
     "created item",
   );
 
+  const updatedTitle = `Updated API Contract ${contractRunId}`;
   const updatedItem = await updateCatalogItem(
     createdItem.id,
     {
+      title: updatedTitle,
       status: "borrowed",
       borrowerName: `Borrower ${contractRunId}`,
       note: `Updated by ${contractRunId}`,
@@ -422,7 +424,7 @@ try {
   );
 
   assert.equal(updatedItem.id, createdItem.id, "updated item should keep id");
-  assert.equal(updatedItem.title, createdTitle, "updated item should keep title");
+  assert.equal(updatedItem.title, updatedTitle, "updated item should persist title");
   assert.equal(updatedItem.kind, "book", "updated item should keep kind");
   assert.equal(updatedItem.status, "borrowed", "updated item should persist status");
   assert.equal(
@@ -436,7 +438,7 @@ try {
     sql,
     createdItem.id,
     {
-      title: createdTitle,
+      title: updatedTitle,
       kind: "book",
       status: "borrowed",
       borrowerName: `Borrower ${contractRunId}`,
@@ -448,6 +450,7 @@ try {
   const clearedItem = await updateCatalogItem(
     createdItem.id,
     {
+      title: updatedTitle,
       status: "available",
       borrowerName: "",
       note: "",
@@ -464,7 +467,7 @@ try {
     sql,
     createdItem.id,
     {
-      title: createdTitle,
+      title: updatedTitle,
       kind: "book",
       status: "available",
       borrowerName: null,
@@ -474,7 +477,7 @@ try {
   );
 
   const cleanExpectedFields = {
-    title: createdTitle,
+    title: updatedTitle,
     kind: "book",
     status: "available",
     borrowerName: null,
@@ -554,6 +557,7 @@ try {
   await expectUpdateFailure(
     createdItem.id,
     {
+      title: updatedTitle,
       status: "borrowed",
       borrowerName: "Missing Profile",
       note: "should fail",
@@ -567,6 +571,7 @@ try {
   await expectUpdateFailure(
     createdItem.id,
     {
+      title: updatedTitle,
       status: "borrowed",
       borrowerName: "Guest",
       note: "should fail",
@@ -580,6 +585,7 @@ try {
   await expectUpdateFailure(
     createdItem.id,
     {
+      title: updatedTitle,
       status: "borrowed",
       borrowerName: "Invalid Session",
       note: "should fail",
@@ -593,6 +599,7 @@ try {
   await expectUpdateFailure(
     createdItem.id,
     {
+      title: updatedTitle,
       status: "borrowed",
       borrowerName: "Mismatched Family",
       note: "should fail",
@@ -606,6 +613,7 @@ try {
   await expectUpdateFailure(
     createdItem.id,
     {
+      title: updatedTitle,
       status: "lost",
       borrowerName: "Invalid Status",
       note: "should fail",
@@ -619,6 +627,21 @@ try {
   await expectUpdateFailure(
     createdItem.id,
     {
+      title: "   ",
+      status: "borrowed",
+      borrowerName: "Blank Title",
+      note: "should fail",
+    },
+    familyEvidence,
+    400,
+    "blank title update",
+  );
+  await assertItemUnchanged(sql, createdItem.id, cleanExpectedFields, "blank title update");
+
+  await expectUpdateFailure(
+    createdItem.id,
+    {
+      title: updatedTitle,
       status: "borrowed",
       borrowerName: "x".repeat(121),
       note: "should fail",
@@ -713,7 +736,7 @@ try {
   const deletedItem = await deleteCatalogItem(createdItem.id, familySession, adminSession);
 
   assert.equal(deletedItem.id, createdItem.id, "deleted item should return deleted id");
-  assert.equal(deletedItem.title, createdTitle, "deleted item should return deleted title");
+  assert.equal(deletedItem.title, updatedTitle, "deleted item should return deleted title");
 
   await assertMissingCatalogItem(sql, createdItem.id, "deleted item");
   await assertSeedRowsStillExist(sql);

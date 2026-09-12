@@ -107,6 +107,7 @@ export function validateUpdateCatalogItemInput(
   input: Record<string, unknown>,
 ): UpdateCatalogItemValidationResult {
   const id = normalizeStringValue(input.id);
+  const title = normalizeStringValue(input.title);
   const status = normalizeStringValue(input.status);
   const note = normalizeStringValue(input.note);
   const borrowerName = normalizeStringValue(input.borrowerName);
@@ -114,6 +115,10 @@ export function validateUpdateCatalogItemInput(
 
   if (!id) {
     errors.push({ field: "id", message: "Item id is required." });
+  }
+
+  if (!title) {
+    errors.push({ field: "title", message: "Title is required." });
   }
 
   if (!isCatalogItemStatus(status)) {
@@ -142,6 +147,7 @@ export function validateUpdateCatalogItemInput(
     ok: true,
     value: {
       id,
+      title,
       status: status as CatalogItemStatus,
       note: note || null,
       borrowerName: borrowerName || null,

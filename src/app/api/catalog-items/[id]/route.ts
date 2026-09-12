@@ -12,6 +12,7 @@ import { verifyProfileCapability } from "@/lib/profileAuthorization";
 type UpdateCatalogItemRequest = {
   profileId?: unknown;
   sessionToken?: unknown;
+  title?: unknown;
   status?: unknown;
   note?: unknown;
   borrowerName?: unknown;

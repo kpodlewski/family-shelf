@@ -229,6 +229,7 @@ try {
 
 const updateItemId = `${contractRunId}-update`;
 const updateItemTitle = `Update Contract ${contractRunId}`;
+const updatedItemTitle = `Updated Contract ${contractRunId}`;
 
 try {
   await sql`
@@ -239,6 +240,7 @@ try {
   const updatedRows = await sql`
     UPDATE catalog_items
     SET
+      title = ${updatedItemTitle},
       status = ${"borrowed"},
       borrower_name = ${"Contract Borrower"},
       note = ${"Updated contract note"},
@@ -249,7 +251,7 @@ try {
   const updatedItem = rowToItem(updatedRows[0]);
 
   assert.equal(updatedItem.id, updateItemId, "update should keep the same id");
-  assert.equal(updatedItem.title, updateItemTitle, "update should keep the same title");
+  assert.equal(updatedItem.title, updatedItemTitle, "update should persist title");
   assert.equal(updatedItem.kind, "book", "update should keep the same kind");
   assert.equal(updatedItem.status, "borrowed", "update should persist status");
   assert.equal(updatedItem.borrowerName, "Contract Borrower", "update should persist borrower name");
@@ -263,6 +265,7 @@ try {
   const searchableItems = rowsAfterUpdate.map(rowToItem);
 
   assert.equal(searchItems(searchableItems, "Contract Borrower").length, 1, "updated borrower should be searchable");
+  assert.equal(searchItems(searchableItems, updatedItemTitle).length, 1, "updated title should be searchable");
   assert.equal(searchItems(searchableItems, "Updated contract note").length, 1, "updated note should be searchable");
 
   const clearedRows = await sql`
@@ -285,6 +288,7 @@ try {
     DELETE FROM catalog_items
     WHERE id = ${updateItemId}
       OR title = ${updateItemTitle}
+      OR title = ${updatedItemTitle}
   `;
 }
 

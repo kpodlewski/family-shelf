@@ -177,11 +177,13 @@ export async function updateCatalogItem(
   }
 
   const sql = getSqlClient();
+  const title = input.title.trim();
   const note = input.note?.trim() || null;
   const borrowerName = input.borrowerName?.trim() || null;
   const rows = (await sql`
     UPDATE catalog_items
     SET
+      title = ${title},
       status = ${input.status},
       borrower_name = ${borrowerName},
       note = ${note},
