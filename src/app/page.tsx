@@ -6,6 +6,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   const items = await listCatalogItems()
+  const recentItems = items.slice(0, 10)
 
   return (
     <main className="portal-page mx-auto flex min-h-screen max-w-5xl flex-col gap-8 p-6">
@@ -28,10 +29,10 @@ export default async function Home() {
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-xl font-semibold">Recent items</h2>
-          <span className="text-sm text-slate-500">{items.length} visible</span>
+          <span className="text-sm text-slate-500">{recentItems.length} shown</span>
         </div>
         <div className="grid gap-3">
-          {items.map((item) => (
+          {recentItems.map((item) => (
             <div key={item.id} className="flex items-center justify-between rounded-xl border border-slate-200 p-4">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
