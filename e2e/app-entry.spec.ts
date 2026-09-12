@@ -22,7 +22,12 @@ test("family profile can open and search the item catalog", async ({ page }) => 
 
   await page.getByRole("link", { name: "Open catalog" }).click();
   await expect(page).toHaveURL(/\/items$/);
+  await expect(page.getByRole("link", { name: "Family Shelf home" })).toHaveAttribute(
+    "href",
+    "/",
+  );
   await expect(page.getByRole("heading", { name: "Item catalog" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Admin view" })).toBeVisible();
   await expect(page.getByText("Dune", { exact: true })).toBeVisible();
 
   await page.getByLabel("Search catalog").fill("Dune");

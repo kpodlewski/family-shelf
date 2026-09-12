@@ -27,8 +27,18 @@ export default async function ItemsPage({ searchParams }: ItemsPageProps) {
 
   return (
     <main className="portal-page mx-auto flex min-h-screen max-w-4xl flex-col gap-6 p-6">
-      <h1 className="text-3xl font-semibold">Item catalog</h1>
-      <p className="text-slate-600">Search, add, and update items for the family inventory.</p>
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="grid gap-2">
+          <h1 className="text-3xl font-semibold">Item catalog</h1>
+          <p className="text-slate-600">Search, add, and update items for the family inventory.</p>
+        </div>
+        <Link
+          href="/admin"
+          className="w-fit rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+        >
+          Admin view
+        </Link>
+      </header>
       <ProfileAccessNotice />
       <AddCatalogItemForm />
       <CatalogSearchForm query={query} />

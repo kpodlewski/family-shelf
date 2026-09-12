@@ -10,6 +10,9 @@ import {
   useState,
 } from "react";
 
+import Link from "next/link";
+import Image from "next/image";
+
 import { AppProfile, ProfileCapability, listAppProfiles } from "@/lib/profiles";
 
 type StoredProfile = Pick<AppProfile, "id" | "label" | "role" | "capabilities">;
@@ -165,16 +168,32 @@ export function ProfileGate({ children }: { children: ReactNode }) {
         <div className="app-shell">
         <div className="app-topbar px-6 py-3">
           <div className="mx-auto flex max-w-5xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-wrap items-center gap-2 text-sm">
-              <span className="text-[#c8bddc]">
-                Using <span className="font-medium text-white">{selectedProfile.label}</span>
-              </span>
-              <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 font-medium text-[#f9d7dd]">
-                {selectedProfile.role === "guest" ? "Guest" : "Family"}
-              </span>
-              <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 font-medium text-[#f9d7dd]">
-                {canWriteCatalog ? "Catalog updates allowed" : "Read-only"}
-              </span>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+              <Link
+                href="/"
+                className="flex w-fit items-center gap-2 text-sm font-semibold text-white"
+                aria-label="Family Shelf home"
+              >
+                <Image
+                  src="/icon.jpg"
+                  alt=""
+                  width={36}
+                  height={36}
+                  className="h-9 w-9 rounded-lg border border-white/15 object-cover"
+                />
+                <span>Family Shelf</span>
+              </Link>
+              <div className="flex flex-wrap items-center gap-2 text-sm">
+                <span className="text-[#c8bddc]">
+                  Using <span className="font-medium text-white">{selectedProfile.label}</span>
+                </span>
+                <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 font-medium text-[#f9d7dd]">
+                  {selectedProfile.role === "guest" ? "Guest" : "Family"}
+                </span>
+                <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 font-medium text-[#f9d7dd]">
+                  {canWriteCatalog ? "Catalog updates allowed" : "Read-only"}
+                </span>
+              </div>
             </div>
             <button
               type="button"
