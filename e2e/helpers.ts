@@ -14,6 +14,10 @@ export async function chooseFamilyProfile(page: Page, profileLabel: string) {
   await page.getByLabel(profileLabel).check();
 }
 
+export async function chooseGuestProfile(page: Page) {
+  await page.getByLabel("Guest").check();
+}
+
 export async function enterSelectedProfile(page: Page) {
   await page.getByRole("button", { name: "Enter app" }).click();
   await expect(page.getByRole("button", { name: "Change profile" })).toBeVisible();

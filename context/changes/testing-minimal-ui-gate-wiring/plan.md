@@ -291,30 +291,30 @@ Installing Playwright may add a lockfile change and may require browser installa
 
 #### Automated
 
-- [x] 2.1 `npm.cmd run check:catalog` passes before e2e.
-- [x] 2.2 With the local app server running, `npm.cmd run check:e2e` proves family login reaches `/items`.
-- [x] 2.3 `npm.cmd run check:e2e` proves a known seed title is visible after login.
-- [x] 2.4 `npm.cmd run check:e2e` proves search filters the visible catalog UI.
+- [x] 2.1 `npm.cmd run check:catalog` passes before e2e. (commit `0bc1ab3`)
+- [x] 2.2 With the local app server running, `npm.cmd run check:e2e` proves family login reaches `/items`. (commit `0bc1ab3`)
+- [x] 2.3 `npm.cmd run check:e2e` proves a known seed title is visible after login. (commit `0bc1ab3`)
+- [x] 2.4 `npm.cmd run check:e2e` proves search filters the visible catalog UI. (commit `0bc1ab3`)
 
 #### Manual
 
-- [x] 2.5 The test reads like a user flow and does not bypass profile selection with internal token creation.
-- [x] 2.6 Assertions are based on stable user-visible text, not pixel positions or snapshots.
-- [x] 2.7 The test does not create, update, or delete catalog rows.
+- [x] 2.5 The test reads like a user flow and does not bypass profile selection with internal token creation. (commit `0bc1ab3`)
+- [x] 2.6 Assertions are based on stable user-visible text, not pixel positions or snapshots. (commit `0bc1ab3`)
+- [x] 2.7 The test does not create, update, or delete catalog rows. (commit `0bc1ab3`)
 
 ### Phase 3: Guest And Admin Visibility Boundaries
 
 #### Automated
 
-- [ ] 3.1 `npm.cmd run check:e2e` proves guest can view `/items` and search UI.
-- [ ] 3.2 `npm.cmd run check:e2e` proves guest does not see add/update/delete controls.
-- [ ] 3.3 `npm.cmd run check:e2e` proves admin unlock makes delete controls visible for a family session.
+- [x] 3.1 `npm.cmd run check:e2e` proves guest can view `/items` and search UI.
+- [x] 3.2 `npm.cmd run check:e2e` proves guest does not see add/update/delete controls.
+- [x] 3.3 `npm.cmd run check:e2e` proves admin unlock makes delete controls visible for a family session.
 
 #### Manual
 
-- [ ] 3.4 The guest test is described as visible affordance coverage, not security proof.
-- [ ] 3.5 The admin test does not perform destructive delete.
-- [ ] 3.6 Tests are independent and do not share localStorage state unintentionally.
+- [x] 3.4 The guest test is described as visible affordance coverage, not security proof.
+- [x] 3.5 The admin test does not perform destructive delete.
+- [x] 3.6 Tests are independent and do not share localStorage state unintentionally.
 
 ### Phase 4: Gate Docs And Cookbook
 
