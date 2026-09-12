@@ -13,3 +13,4 @@ test-results/
 playwright-report/
 playwright/.auth/
 entry-data.txt
+entrydata*.txt
