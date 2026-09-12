@@ -26,10 +26,10 @@ The north star - the smallest user-visible flow that proves the product is usefu
 | S-02 | slice | Family member can search for an item and see its current status and note. | search-current-item-state | F-01, S-01 | FR-005, FR-006, FR-008, US-01 | done |
 | S-03 | slice | Family member can add a new item that appears in the catalog. | add-catalog-item | F-01, S-01 | FR-004, FR-005, US-01 | done |
 | S-04 | slice | Family member can change borrowing status and note for an item. | update-borrowing-state | F-01, S-02, S-03 | FR-006, FR-007, FR-008, US-02 | done |
-| S-05 | slice | Admin can unlock protected destructive actions and delete an item. | admin-delete-item | F-01, S-01, S-03 | FR-003, FR-009, US-03 | impl_reviewed |
-| F-02 | foundation | Critical access and catalog smoke protects production login and item visibility. | testing-critical-access-catalog-smoke | F-01, S-01, S-02, S-05 | FR-001, FR-003, FR-005, FR-006, US-01 | implemented |
-| F-03 | foundation | Catalog mutation contracts protect durable add/update/delete/readback behavior. | testing-catalog-mutation-contracts | F-01, S-02, S-03, S-04, S-05 | FR-004, FR-005, FR-006, FR-007, FR-008, FR-009, US-01, US-02, US-03 | implemented |
-| F-04 | foundation | Authorization regression boundaries protect guest/family/admin server-side access. | testing-authorization-regression-boundary | F-02, F-03 | FR-003, FR-009, US-03 | implemented |
+| S-05 | slice | Admin can unlock protected destructive actions and delete an item. | admin-delete-item | F-01, S-01, S-03 | FR-003, FR-009, US-03 | done |
+| F-02 | foundation | Critical access and catalog smoke protects production login and item visibility. | testing-critical-access-catalog-smoke | F-01, S-01, S-02, S-05 | FR-001, FR-003, FR-005, FR-006, US-01 | done |
+| F-03 | foundation | Catalog mutation contracts protect durable add/update/delete/readback behavior. | testing-catalog-mutation-contracts | F-01, S-02, S-03, S-04, S-05 | FR-004, FR-005, FR-006, FR-007, FR-008, FR-009, US-01, US-02, US-03 | done |
+| F-04 | foundation | Authorization regression boundaries protect guest/family/admin server-side access. | testing-authorization-regression-boundary | F-02, F-03 | FR-003, FR-009, US-03 | done |
 | F-05 | foundation | Minimal UI e2e wiring protects login, catalog search, guest read-only UI, and admin delete-control visibility. | testing-minimal-ui-gate-wiring | F-02, F-03, F-04 | FR-001, FR-003, FR-005, FR-006, FR-009, US-01, US-03 | archived |
 | M-01 | maintenance | Bootstrap verification notes preserve setup evidence and local server logs. | bootstrap-verification | none | n/a | active |
 | M-02 | maintenance | GitHub issue migration notes preserve external task handoff state. | github-issues-migration | none | n/a | active |
@@ -89,7 +89,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: Local success can hide production env drift. Keep smoke checks env-backed and non-destructive.
 
-**Status**: implemented
+**Status**: done
 
 **Unlocks**: F-03, F-04, F-05
 
@@ -113,7 +113,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: Tests that mutate seed or user rows would make the catalog untrustworthy. Keep mutation checks scoped to contract-owned rows.
 
-**Status**: implemented
+**Status**: done
 
 **Unlocks**: F-04, F-05
 
@@ -137,7 +137,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: Hidden buttons alone do not prove authorization. Keep server-side authorization checks in contract/API scripts.
 
-**Status**: implemented
+**Status**: done
 
 **Unlocks**: F-05
 
@@ -275,7 +275,7 @@ The north star - the smallest user-visible flow that proves the product is usefu
 
 **Risk**: Turning this into a full login system would violate the PRD non-goal. Keep the admin gate narrow and only for destructive actions.
 
-**Status**: impl_reviewed
+**Status**: done
 
 ## Maintenance
 
@@ -361,5 +361,8 @@ No blocking roadmap questions. Implementation details such as the specific persi
 - **S-02: Family member can search for an item and see its current status and note.** - Archived 2026-09-12 -> `context/archive/2026-08-21-search-current-item-state/`. Lesson: -.
 - **S-03: Family member can add a new item that appears in the catalog.** - Archived 2026-09-12 -> `context/archive/2026-08-21-add-catalog-item/`. Lesson: -.
 - **S-04: Family member can change borrowing status and note for an item.** - Archived 2026-09-12 -> `context/archive/2026-08-21-update-borrowing-state/`. Lesson: -.
-- S-05 `admin-delete-item`
+- **S-05: Admin can unlock protected destructive actions and delete an item.** - Archived 2026-09-12 -> `context/archive/2026-09-11-admin-delete-item/`. Lesson: -.
+- **F-02: Critical access and catalog smoke protects production login and item visibility.** - Archived 2026-09-12 -> `context/archive/2026-09-11-testing-critical-access-catalog-smoke/`. Lesson: -.
+- **F-03: Catalog mutation contracts protect durable add/update/delete/readback behavior.** - Archived 2026-09-12 -> `context/archive/2026-09-11-testing-catalog-mutation-contracts/`. Lesson: -.
+- **F-04: Authorization regression boundaries protect guest/family/admin server-side access.** - Archived 2026-09-12 -> `context/archive/2026-09-12-testing-authorization-regression-boundary/`. Lesson: -.
 - F-05 `testing-minimal-ui-gate-wiring`

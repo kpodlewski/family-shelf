@@ -1,10 +1,10 @@
 ---
 change_id: testing-catalog-mutation-contracts
 title: Catalog mutation contracts
-status: impl_reviewed
+status: archived
 created: 2026-09-11
 updated: 2026-09-12
-archived_at: null
+archived_at: 2026-09-12T09:05:34Z
 ---
 
 ## Notes
