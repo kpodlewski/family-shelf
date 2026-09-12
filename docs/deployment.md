@@ -37,6 +37,11 @@ disposable preview target. The browser check requires
 `FAMILY_SHELF_FAMILY_PASSWORD` and `FAMILY_SHELF_ADMIN_PASSWORD` from the shell or
 `.env.local`, and it expects stable seed rows from `check:catalog`.
 
+Authenticated Playwright specs should use files under `playwright/.auth/`, which
+is git-ignored. Set `FAMILY_SHELF_E2E_FAMILY_STORAGE_STATE` to an auth-state file
+when running `*.authenticated.spec.ts`; the default critical-flow specs keep
+selecting profiles through the UI so they still protect the entry gate.
+
 ## Verification
 
 Before shipping a preview or production change:

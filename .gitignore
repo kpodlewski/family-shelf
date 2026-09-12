@@ -11,3 +11,4 @@ AGENTS.md
 skills-lock.json
 test-results/
 playwright-report/
+playwright/.auth/

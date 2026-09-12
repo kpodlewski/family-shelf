@@ -33,6 +33,8 @@ function loadLocalEnv() {
 loadLocalEnv();
 
 const baseURL = process.env.FAMILY_SHELF_E2E_BASE_URL ?? "http://localhost:3000";
+const familyStorageState = process.env.FAMILY_SHELF_E2E_FAMILY_STORAGE_STATE;
+const authenticatedSpecPattern = /.*\.authenticated\.spec\.ts/;
 
 export default defineConfig({
   testDir: "./e2e",
@@ -47,7 +49,20 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
+      testIgnore: authenticatedSpecPattern,
       use: { ...devices["Desktop Chrome"] },
     },
+    ...(familyStorageState
+      ? [
+          {
+            name: "chromium-family-auth",
+            testMatch: authenticatedSpecPattern,
+            use: {
+              ...devices["Desktop Chrome"],
+              storageState: familyStorageState,
+            },
+          },
+        ]
+      : []),
   ],
 });
