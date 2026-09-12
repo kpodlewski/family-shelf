@@ -10,6 +10,7 @@
     "check:smoke": "node scripts/check-smoke.mjs",
     "check:e2e": "playwright test",
     "check:profiles": "node scripts/check-profiles.mjs",
+    "typecheck": "tsc --noEmit",
     "start": "next start",
     "lint": "eslint"
   },

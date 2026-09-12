@@ -3,6 +3,7 @@ node_modules
 out
 npm-debug.log*
 *.log
+*.tsbuildinfo
 AGENTS.md
 .vercel
 .env*

@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|apply_patch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npm run lint || exit 2",
+            "commandWindows": "npm.cmd run lint; if ($LASTEXITCODE -ne 0) { exit 2 }",
+            "timeout": 30,
+            "statusMessage": "Running lint after edit"
+          },
+          {
+            "type": "command",
+            "command": "npm run typecheck || exit 2",
+            "commandWindows": "npm.cmd run typecheck; if ($LASTEXITCODE -ne 0) { exit 2 }",
+            "timeout": 30,
+            "statusMessage": "Running typecheck after edit"
+          }
+        ]
+      }
+    ]
+  }
+}
