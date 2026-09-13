@@ -31,7 +31,8 @@ Projekt zawiera testy i checki wspierające weryfikację działania aplikacji:
 - testy E2E w Playwright sprawdzające główne przepływy użytkownika,
 - smoke test produkcji,
 - contract checks dla profili, katalogu i API,
-- lint oraz typecheck.
+- lint oraz typecheck,
+- GitHub Actions workflow uruchamiający lint i typecheck na pushach i pull requestach do `main`.
 
 ## Linki
 
