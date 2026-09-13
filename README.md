@@ -1,8 +1,8 @@
 # Family Shelf
 
-Family Shelf is a private family catalog for books, board games, video games, and other shared household items. It helps the family check what is available, what is borrowed, and where useful notes about an item live.
+Family Shelf is a private family catalog for books, board games, and video games. It keeps useful notes about shared items in one place and helps the family check what is available at home, what is lent, and to whom.
 
-The project is a 10xDevs MVP/10xBuilder submission built from the context documents in `context/foundation/`.
+The project is a 10xDevs MVP project built from the context documents in `context/foundation/`.
 
 ## Core Features
 
@@ -11,7 +11,6 @@ The project is a 10xDevs MVP/10xBuilder submission built from the context docume
 - Add new catalog items from a dedicated add-item page.
 - Update item title, borrowing status, borrower, and note.
 - Delete catalog items only after admin unlock.
-- Import local developer entry files into the database without committing those files.
 
 ## Access Model
 
@@ -32,18 +31,6 @@ This is intentionally not a full multi-account auth system. For the private-fami
 - `@neondatabase/serverless`
 - Playwright for browser E2E checks
 - Vercel deployment
-
-## Required Environment Variables
-
-Local development can use `.env.local`:
-
-```env
-DATABASE_URL=...
-FAMILY_SHELF_FAMILY_PASSWORD=...
-FAMILY_SHELF_ADMIN_PASSWORD=...
-```
-
-`POSTGRES_URL` can be used instead of `DATABASE_URL`. Do not commit `.env.local`.
 
 ## Local Development
 
